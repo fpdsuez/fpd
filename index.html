@@ -1,4663 +1,1027 @@
-```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-
-<title>SOPC | قطاع المشتريات الخارجية</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>SOPC | إدارة قطاع المشتريات الخارجية</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-
-<link
-  href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap"
-  rel="stylesheet">
-
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-
-/* =========================================================
-   ROOT
-========================================================= */
-
 :root{
-
   --gold:#d4af37;
   --gold-light:#f5d76e;
   --gold-dark:#9b781b;
-
   --white:#f7f5ef;
   --muted:#aaa9a3;
-
   --border:#34373d;
-
-  --panel:#111214;
-  --panel2:#191b20;
-
-  --success:#8ee0b6;
-  --danger:#ffaaa6;
-
-  --shadow:
-    0 25px 70px rgba(0,0,0,.45);
-
+  --shadow:0 25px 70px rgba(0,0,0,.45);
 }
-
-
-/* =========================================================
-   GENERAL
-========================================================= */
-
-*{
-  box-sizing:border-box;
-}
-
-html{
-  scroll-behavior:smooth;
-}
-
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;overflow-x:hidden;}
 body{
-
-  margin:0;
-
-  min-height:100vh;
-
-  font-family:
-    Cairo,
-    Arial,
-    sans-serif;
-
+  margin:0;min-height:100vh;width:100%;max-width:100%;overflow-x:hidden;
+  font-family:Cairo,Arial,sans-serif;
   color:var(--white);
-
   background:
-
-    radial-gradient(
-      circle at 10% 0%,
-      rgba(212,175,55,.15),
-      transparent 28%
-    ),
-
-    radial-gradient(
-      circle at 90% 15%,
-      rgba(212,175,55,.08),
-      transparent 25%
-    ),
-
-    linear-gradient(
-      135deg,
-      #050505,
-      #111315 50%,
-      #050505
-    );
-
+    radial-gradient(circle at 10% 0%, rgba(212,175,55,.15), transparent 28%),
+    radial-gradient(circle at 90% 15%, rgba(212,175,55,.08), transparent 25%),
+    linear-gradient(135deg,#050505,#111315 50%,#050505);
 }
+button,input,select,textarea{font-family:inherit;}
+button{cursor:pointer;}
+.hidden{display:none!important;}
 
-button,
-input,
-select,
-textarea{
-  font-family:inherit;
-}
-
-button{
-  cursor:pointer;
-}
-
-.hidden{
-  display:none!important;
-}
-
-
-/* =========================================================
-   LOGIN
-========================================================= */
-
-.login-page{
-
-  min-height:100vh;
-
-  display:flex;
-
-  justify-content:center;
-
-  align-items:center;
-
-  padding:20px;
-
-}
-
+/* LOGIN */
+.login-page{min-height:100vh;display:flex;justify-content:center;align-items:center;padding:25px;}
 .login-card{
-
-  width:min(450px,95vw);
-
-  padding:40px;
-
-  text-align:center;
-
-  background:
-    linear-gradient(
-      145deg,
-      #191b20,
-      #090a0b
-    );
-
-  border:
-    1px solid
-    rgba(212,175,55,.4);
-
-  border-radius:28px;
-
-  box-shadow:
-
-    0 35px 100px
-    rgba(0,0,0,.7),
-
-    0 0 50px
-    rgba(212,175,55,.06);
-
+  width:min(450px,95vw);padding:40px;text-align:center;
+  background:linear-gradient(145deg,#191b20,#090a0b);
+  border:1px solid rgba(212,175,55,.4);border-radius:28px;
+  box-shadow:0 35px 100px rgba(0,0,0,.7), 0 0 50px rgba(212,175,55,.06);
 }
-
 .logo{
-
-  width:85px;
-
-  height:85px;
-
-  margin:0 auto 20px;
-
-  display:flex;
-
-  justify-content:center;
-
-  align-items:center;
-
-  border:
-    2px solid
-    var(--gold);
-
-  border-radius:25px;
-
-  color:
-    var(--gold-light);
-
-  font-size:25px;
-
-  font-weight:800;
-
-  box-shadow:
-    0 0 35px
-    rgba(212,175,55,.18);
-
+  width:85px;height:85px;margin:0 auto 20px;
+  display:flex;justify-content:center;align-items:center;
+  border:2px solid var(--gold);border-radius:25px;
+  color:var(--gold-light);font-size:26px;font-weight:800;
+  box-shadow:0 0 35px rgba(212,175,55,.18);
 }
+.login-title{margin:0;font-size:26px;font-weight:800;}
+.login-subtitle{color:var(--muted);margin:8px 0 28px;font-size:14px;}
 
-.login-title{
-
-  margin:0;
-
-  font-size:26px;
-
-  font-weight:800;
-
-}
-
-.login-subtitle{
-
-  color:var(--muted);
-
-  margin:
-    8px 0 28px;
-
-  font-size:14px;
-
-}
-
-
-/* =========================================================
-   FORMS
-========================================================= */
-
-.form-group{
-
-  margin-bottom:15px;
-
-  text-align:right;
-
-}
-
-.form-group label{
-
-  display:block;
-
-  margin-bottom:7px;
-
-  color:#e5e5e5;
-
-  font-size:13px;
-
-  font-weight:700;
-
-}
-
+/* FORM */
+.form-group{margin-bottom:16px;text-align:right;}
+.form-group label{display:block;margin-bottom:7px;color:#e5e5e5;font-size:13px;font-weight:700;}
 .form-control{
-
-  width:100%;
-
-  min-height:46px;
-
-  padding:
-    11px 14px;
-
-  color:var(--white);
-
-  background:#08090a;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius:12px;
-
-  outline:none;
-
-  transition:.2s;
-
+  width:100%;padding:13px 14px;color:var(--white);
+  background:#08090a;border:1px solid var(--border);border-radius:12px;
+  outline:none;transition:.2s;
 }
+.form-control:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,175,55,.10);}
+textarea.form-control{min-height:100px;resize:vertical;}
 
-.form-control:focus{
-
-  border-color:
-    var(--gold);
-
-  box-shadow:
-    0 0 0 3px
-    rgba(212,175,55,.10);
-
-}
-
-textarea.form-control{
-
-  min-height:100px;
-
-  resize:vertical;
-
-}
-
-
-/* =========================================================
-   BUTTONS
-========================================================= */
-
-.btn{
-
-  min-height:40px;
-
-  padding:
-    9px 15px;
-
-  border:0;
-
-  border-radius:11px;
-
-  font-weight:800;
-
-  transition:.2s;
-
-}
-
-.btn:hover{
-
-  transform:
-    translateY(-2px);
-
-}
-
-.btn:disabled{
-
-  opacity:.6;
-
-  cursor:not-allowed;
-
-  transform:none;
-
-}
-
+/* BUTTONS */
+.btn{min-height:42px;padding:10px 16px;border:0;border-radius:11px;font-weight:800;transition:.2s;}
+.btn:hover{transform:translateY(-2px);}
+.btn:disabled{opacity:.6;cursor:not-allowed;transform:none;}
 .btn-primary{
-
   color:#111;
-
-  background:
-    linear-gradient(
-      135deg,
-      var(--gold-dark),
-      var(--gold-light)
-    );
-
-  box-shadow:
-    0 10px 25px
-    rgba(212,175,55,.14);
-
+  background:linear-gradient(135deg,var(--gold-dark),var(--gold-light));
+  box-shadow:0 10px 25px rgba(212,175,55,.14);
 }
+.btn-secondary{color:#eee;background:#22252a;border:1px solid #454850;}
+.btn-danger{color:#ffb3af;background:#321719;border:1px solid #713437;}
+.login-button{width:100%;padding:13px;margin-top:8px;}
+.message{min-height:22px;margin-top:12px;color:#ffaaa6;font-size:13px;}
 
-.btn-secondary{
-
-  color:#eee;
-
-  background:#22252a;
-
-  border:
-    1px solid
-    #454850;
-
-}
-
-.btn-danger{
-
-  color:#ffb3af;
-
-  background:#321719;
-
-  border:
-    1px solid
-    #713437;
-
-}
-
-.btn-export{
-
-  color:#111;
-
-  background:
-    linear-gradient(
-      135deg,
-      #b88a1c,
-      #f5d76e
-    );
-
-}
-
-.btn-print{
-
-  color:#eee;
-
-  background:#24272c;
-
-  border:
-    1px solid
-    #555960;
-
-}
-
-.login-button{
-
-  width:100%;
-
-  padding:13px;
-
-  margin-top:8px;
-
-}
-
-.message{
-
-  min-height:22px;
-
-  margin-top:12px;
-
-  color:#ffaaa6;
-
-  font-size:13px;
-
-}
-
-
-/* =========================================================
-   TOP BAR
-========================================================= */
-
+/* HEADER */
 .topbar{
-
-  position:sticky;
-
-  top:0;
-
-  z-index:100;
-
-  min-height:74px;
-
-  padding:
-    12px 3%;
-
-  display:flex;
-
-  justify-content:space-between;
-
-  align-items:center;
-
-  gap:15px;
-
-  background:
-    rgba(5,5,5,.94);
-
-  border-bottom:
-    1px solid
-    rgba(212,175,55,.25);
-
-  backdrop-filter:
-    blur(15px);
-
+  position:sticky;top:0;z-index:100;min-height:74px;padding:12px clamp(12px,3vw,42px);
+  display:flex;justify-content:space-between;align-items:center;gap:15px;
+  background:rgba(5,5,5,.93);
+  border-bottom:1px solid rgba(212,175,55,.25);
+  backdrop-filter:blur(15px);
 }
-
-.brand{
-
-  font-size:17px;
-
-  font-weight:800;
-
-}
-
-.brand span{
-
-  color:
-    var(--gold-light);
-
-}
-
-.user-area{
-
-  display:flex;
-
-  align-items:center;
-
-  gap:10px;
-
-}
-
-.user-name{
-
-  color:#ddd;
-
-  font-size:13px;
-
-}
-
+.brand{font-size:clamp(14px,2.2vw,17px);font-weight:800;min-width:0;line-height:1.5;}
+.brand span{color:var(--gold-light);}
+.user-area{display:flex;align-items:center;gap:8px;min-width:0;flex-shrink:0;}
+.user-name{color:#ddd;font-size:13px;}
 .role{
-
-  padding:
-    5px 12px;
-
-  color:
-    var(--gold-light);
-
-  background:
-    rgba(212,175,55,.07);
-
-  border:
-    1px solid
-    rgba(212,175,55,.35);
-
-  border-radius:999px;
-
-  font-size:11px;
-
+  padding:5px 12px;color:var(--gold-light);
+  background:rgba(212,175,55,.07);
+  border:1px solid rgba(212,175,55,.35);
+  border-radius:999px;font-size:11px;
 }
 
+/* CONTAINER */
+.container{width:100%;max-width:1450px;margin:0 auto;padding-inline:clamp(12px,3vw,42px);}
+main{padding-bottom:70px;width:100%;min-width:0;}
+.hero{padding:40px 0 25px;}
+.hero h1{margin:0 0 7px;font-size:clamp(25px,4vw,42px);font-weight:800;}
+.hero p{margin:0;color:var(--muted);font-size:14px;}
 
-/* =========================================================
-   MAIN
-========================================================= */
-
-.container{
-
-  width:min(1450px,94%);
-
-  margin:auto;
-
-}
-
-main{
-
-  padding-bottom:70px;
-
-}
-
-.hero{
-
-  padding:
-    40px 0 25px;
-
-}
-
-.hero h1{
-
-  margin:
-    0 0 7px;
-
-  font-size:
-    clamp(25px,4vw,42px);
-
-  font-weight:800;
-
-}
-
-.hero p{
-
-  margin:0;
-
-  color:
-    var(--muted);
-
-  font-size:14px;
-
-}
-
-
-/* =========================================================
-   STATISTICS
-========================================================= */
-
-.stats{
-
-  display:grid;
-
-  grid-template-columns:
-    repeat(4,1fr);
-
-  gap:13px;
-
-  margin-bottom:24px;
-
-}
-
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:24px;}
 .stat{
-
   padding:18px;
-
-  background:
-    linear-gradient(
-      145deg,
-      #191b20,
-      #101113
-    );
-
-  border:
-    1px solid
-    #34373d;
-
-  border-radius:17px;
-
+  background:linear-gradient(145deg,#191b20,#101113);
+  border:1px solid #34373d;border-radius:17px;
 }
+.stat-number{display:block;color:var(--gold-light);font-size:27px;font-weight:800;}
+.stat-label{color:var(--muted);font-size:12px;}
 
-.stat-number{
-
-  display:block;
-
-  color:
-    var(--gold-light);
-
-  font-size:27px;
-
-  font-weight:800;
-
-}
-
-.stat-label{
-
-  color:
-    var(--muted);
-
-  font-size:12px;
-
-}
-
-
-/* =========================================================
-   MAIN TABS
-========================================================= */
-
-.main-tabs{
-
-  display:grid;
-
-  grid-template-columns:
-    repeat(2,1fr);
-
-  gap:16px;
-
-  margin-bottom:25px;
-
-}
-
+/* MAIN TABS */
+.main-tabs{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:25px;}
 .main-tab{
-
-  padding:25px;
-
-  color:#fff;
-
-  text-align:right;
-
-  background:
-    linear-gradient(
-      145deg,
-      #1b1d21,
-      #101114
-    );
-
-  border:
-    1px solid
-    #443821;
-
-  border-radius:20px;
-
-  transition:.25s;
-
+  padding:25px;color:#fff;text-align:right;
+  background:linear-gradient(145deg,#1b1d21,#101114);
+  border:1px solid #443821;border-radius:20px;transition:.25s;
 }
+.main-tab:hover{transform:translateY(-4px);border-color:var(--gold);}
+.main-tab.active{border-color:var(--gold);box-shadow:0 0 40px rgba(212,175,55,.08);}
+.tab-icon{color:var(--gold-light);font-size:32px;}
+.main-tab strong{display:block;margin:6px 0;font-size:19px;}
+.main-tab small{color:var(--muted);font-size:12px;}
 
-.main-tab:hover{
-
-  transform:
-    translateY(-4px);
-
-  border-color:
-    var(--gold);
-
-}
-
-.main-tab.active{
-
-  border-color:
-    var(--gold);
-
-  box-shadow:
-    0 0 40px
-    rgba(212,175,55,.08);
-
-}
-
-.tab-icon{
-
-  color:
-    var(--gold-light);
-
-  font-size:32px;
-
-}
-
-.main-tab strong{
-
-  display:block;
-
-  margin:
-    6px 0;
-
-  font-size:19px;
-
-}
-
-.main-tab small{
-
-  color:
-    var(--muted);
-
-  font-size:12px;
-
-}
-
-
-/* =========================================================
-   PAGE HEADER
-========================================================= */
-
-.page-header{
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:space-between;
-
-  gap:15px;
-
-  padding:
-    20px 0;
-
-  flex-wrap:wrap;
-
-}
-
-.page-header h2{
-
-  margin:0;
-
-  font-size:24px;
-
-  font-weight:800;
-
-  color:
-    var(--gold-light);
-
-}
-
-.page-actions{
-
-  display:flex;
-
-  gap:8px;
-
-  flex-wrap:wrap;
-
-}
-
-.back-button{
-
-  padding:
-    10px 18px;
-
-  background:#22252a;
-
-  color:#eee;
-
-  border:
-    1px solid
-    #454850;
-
-  border-radius:11px;
-
-  font-weight:800;
-
-}
-
-.back-button:hover{
-
-  border-color:
-    var(--gold);
-
-}
-
-
-/* =========================================================
-   SECTIONS
-========================================================= */
-
+/* SECTION */
 .section{
-
-  margin:
-    18px 0;
-
-  overflow:hidden;
-
-  background:
-    rgba(17,18,21,.94);
-
-  border:
-    1px solid
-    #34373d;
-
-  border-radius:20px;
-
-  box-shadow:
-    var(--shadow);
-
+  margin:18px 0;overflow:hidden;
+  background:rgba(17,18,21,.94);
+  border:1px solid #34373d;border-radius:20px;
+  box-shadow:var(--shadow);
 }
-
 .section-header{
-
-  padding:
-    16px 20px;
-
-  display:flex;
-
-  justify-content:space-between;
-
-  align-items:center;
-
-  gap:12px;
-
-  background:
-    linear-gradient(
-      90deg,
-      #191b1f,
-      #111214
-    );
-
-  border-bottom:
-    1px solid
-    #34373d;
-
+  padding:16px 20px;min-width:0;display:flex;justify-content:space-between;align-items:center;
+  gap:12px;background:linear-gradient(90deg,#191b1f,#111214);
+  border-bottom:1px solid #34373d;
 }
-
-.section-title{
-
-  margin:0;
-
-  font-size:18px;
-
-}
-
-.section-tools{
-
-  display:flex;
-
-  align-items:center;
-
-  gap:9px;
-
-}
-
+.section-title{margin:0;font-size:clamp(16px,2.5vw,19px);line-height:1.5;overflow-wrap:anywhere;}
+.section-tools{display:flex;align-items:center;gap:9px;flex-wrap:wrap;justify-content:flex-end;min-width:0;}
 .badge{
-
-  padding:
-    5px 10px;
-
-  color:
-    var(--gold-light);
-
-  background:
-    rgba(212,175,55,.06);
-
-  border:
-    1px solid
-    rgba(212,175,55,.3);
-
-  border-radius:999px;
-
-  font-size:11px;
-
+  padding:5px 10px;color:var(--gold-light);
+  background:rgba(212,175,55,.06);
+  border:1px solid rgba(212,175,55,.3);
+  border-radius:999px;font-size:11px;
 }
 
-
-/* =========================================================
-   TABLE
-========================================================= */
-
-.table-wrapper{
-
-  width:100%;
-
-  overflow-x:auto;
-
-  -webkit-overflow-scrolling:touch;
-
-}
-
-table{
-
-  width:100%;
-
-  min-width:1250px;
-
-  border-collapse:collapse;
-
-}
-
-th,
-td{
-
-  padding:
-    11px 9px;
-
-  border-bottom:
-    1px solid
-    #292c31;
-
-  text-align:right;
-
-  vertical-align:middle;
-
-}
-
-th{
-
-  color:
-    var(--gold-light);
-
-  background:
-    #101114;
-
-  font-size:12px;
-
-  white-space:nowrap;
-
-}
-
-td{
-
-  color:#eee;
-
-  font-size:12px;
-
-}
-
-tbody tr:hover{
-
-  background:
-    rgba(212,175,55,.035);
-
-}
-
-.empty{
-
-  padding:
-    30px!important;
-
-  color:
-    var(--muted);
-
-  text-align:center;
-
-}
-
+/* TABLE */
+.table-wrapper{width:100%;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;}
+table{width:100%;min-width:1100px;border-collapse:collapse;table-layout:fixed;}
+th,td{padding:11px 9px;word-break:break-word;overflow-wrap:anywhere;border-bottom:1px solid #292c31;text-align:right;vertical-align:top;}
+th{color:var(--gold-light);background:#101114;font-size:12px;white-space:nowrap;}
+td{color:#eee;font-size:12px;}
+tbody tr:hover{background:rgba(212,175,55,.035);}
+.empty{padding:30px!important;color:var(--muted);text-align:center;}
 .status{
-
-  display:inline-flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-  padding:
-    4px 9px;
-
-  color:#eee;
-
-  background:#282b30;
-
-  border:
-    1px solid
-    #444850;
-
-  border-radius:999px;
-
-  font-size:11px;
-
-  white-space:nowrap;
-
+  display:inline-flex;padding:4px 9px;color:#eee;
+  background:#282b30;border:1px solid #444850;border-radius:999px;font-size:11px;
 }
+.status-success{color:#8ee0b6;background:#11281e;border-color:#285f49;}
+.status-warning{color:#f4d47d;background:#2b220d;border-color:#6c5521;}
+.status-danger{color:#ffaaa6;background:#301618;border-color:#713437;}
+.actions{white-space:nowrap;}
 
-.status-success{
-
-  color:
-    var(--success);
-
-  background:#11281e;
-
-  border-color:#285f49;
-
-}
-
-.status-warning{
-
-  color:#f4d47d;
-
-  background:#2b220d;
-
-  border-color:#6c5521;
-
-}
-
-.status-danger{
-
-  color:
-    var(--danger);
-
-  background:#301618;
-
-  border-color:#713437;
-
-}
-
-.actions{
-
-  white-space:nowrap;
-
-}
-
-.actions .btn{
-
-  margin:2px;
-
-}
-
-
-/* =========================================================
-   MODAL
-========================================================= */
-
+/* MODAL */
 .modal{
-
-  position:fixed;
-
-  inset:0;
-
-  z-index:500;
-
-  display:flex;
-
-  justify-content:center;
-
-  align-items:center;
-
-  padding:18px;
-
-  background:
-    rgba(0,0,0,.82);
-
+  position:fixed;inset:0;z-index:500;display:flex;justify-content:center;align-items:center;
+  padding:18px;background:rgba(0,0,0,.8);
 }
-
 .modal-card{
-
-  width:min(900px,96vw);
-
-  max-height:92vh;
-
-  overflow-y:auto;
-
-  padding:25px;
-
-  background:
-    linear-gradient(
-      145deg,
-      #1b1d21,
-      #0e0f11
-    );
-
-  border:
-    1px solid
-    rgba(212,175,55,.4);
-
-  border-radius:21px;
-
-  box-shadow:
-    0 35px 100px
-    rgba(0,0,0,.75);
-
+  width:min(850px,calc(100vw - 24px));max-height:92vh;overflow-y:auto;overscroll-behavior:contain;padding:25px;
+  background:linear-gradient(145deg,#1b1d21,#0e0f11);
+  border:1px solid rgba(212,175,55,.4);border-radius:21px;
+  box-shadow:0 35px 100px rgba(0,0,0,.75);
 }
+.modal-title{margin-top:0;color:var(--gold-light);font-size:21px;}
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+.full{grid-column:1 / -1;}
+.modal-actions{display:flex;gap:9px;margin-top:18px;}
 
-.modal-title{
-
-  margin-top:0;
-
-  color:
-    var(--gold-light);
-
-  font-size:21px;
-
+/* PAGE HEADER */
+.page-header{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:15px;padding:20px 0;flex-wrap:wrap;
 }
-
-.form-grid{
-
-  display:grid;
-
-  grid-template-columns:
-    repeat(2,1fr);
-
-  gap:12px;
-
+.page-header h2{margin:0;font-size:24px;font-weight:800;color:var(--gold-light);}
+.back-button{
+  padding:10px 18px;background:#22252a;color:#eee;
+  border:1px solid #454850;border-radius:11px;font-weight:800;
 }
+.back-button:hover{border-color:var(--gold);}
 
-.full{
-
-  grid-column:
-    1 / -1;
-
-}
-
-.modal-actions{
-
-  display:flex;
-
-  gap:9px;
-
-  margin-top:18px;
-
-}
-
-
-/* =========================================================
-   TOAST
-========================================================= */
-
+/* TOAST */
 .toast{
-
-  position:fixed;
-
-  bottom:20px;
-
-  left:50%;
-
-  transform:
-    translateX(-50%)
-    translateY(100px);
-
-  padding:
-    14px 24px;
-
-  border-radius:12px;
-
-  font-weight:800;
-
-  font-size:14px;
-
-  z-index:1000;
-
-  opacity:0;
-
-  transition:.3s;
-
-  box-shadow:
-    0 20px 50px
-    rgba(0,0,0,.5);
-
-  max-width:90vw;
-
-  text-align:center;
-
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(100px);
+  padding:14px 24px;border-radius:12px;font-weight:800;font-size:14px;
+  z-index:1000;opacity:0;transition:.3s;box-shadow:0 20px 50px rgba(0,0,0,.5);
 }
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+.toast-success{background:#11281e;color:#8ee0b6;border:1px solid #285f49;}
+.toast-error{background:#301618;color:#ffaaa6;border:1px solid #713437;}
+.toast-info{background:#1b1d21;color:var(--gold-light);border:1px solid var(--gold-dark);}
 
-.toast.show{
-
-  transform:
-    translateX(-50%)
-    translateY(0);
-
-  opacity:1;
-
-}
-
-.toast-success{
-
-  background:#11281e;
-
-  color:#8ee0b6;
-
-  border:
-    1px solid
-    #285f49;
-
-}
-
-.toast-error{
-
-  background:#301618;
-
-  color:#ffaaa6;
-
-  border:
-    1px solid
-    #713437;
-
-}
-
-.toast-info{
-
-  background:#1b1d21;
-
-  color:
-    var(--gold-light);
-
-  border:
-    1px solid
-    var(--gold-dark);
-
-}
-
-
-/* =========================================================
-   AUTH OVERLAY
-========================================================= */
-
+/* AUTH LOADING OVERLAY */
 .auth-overlay{
-
-  position:fixed;
-
-  inset:0;
-
-  z-index:2000;
-
-  display:flex;
-
-  flex-direction:column;
-
-  justify-content:center;
-
-  align-items:center;
-
-  gap:20px;
-
-  background:
-    rgba(5,5,5,.97);
-
+  position:fixed;inset:0;z-index:2000;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  gap:20px;background:rgba(5,5,5,.95);
 }
-
 .auth-spinner{
-
-  width:50px;
-
-  height:50px;
-
-  border:
-    3px solid
-    rgba(212,175,55,.2);
-
-  border-top-color:
-    var(--gold);
-
-  border-radius:50%;
-
-  animation:
-    spin .8s linear infinite;
-
+  width:50px;height:50px;border:3px solid rgba(212,175,55,.2);
+  border-top-color:var(--gold);border-radius:50%;
+  animation:spin 0.8s linear infinite;
 }
+@keyframes spin{to{transform:rotate(360deg);}}
+.auth-overlay p{color:var(--muted);font-size:14px;margin:0;}
 
-@keyframes spin{
-
-  to{
-    transform:rotate(360deg);
-  }
-
-}
-
-.auth-overlay p{
-
-  color:
-    var(--muted);
-
-  font-size:14px;
-
-  margin:0;
-
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
+/* RESPONSIVE DESKTOP + MOBILE */
 @media(max-width:850px){
-
-  .stats{
-
-    grid-template-columns:
-      repeat(2,1fr);
-
-  }
-
-  .main-tabs{
-
-    grid-template-columns:1fr;
-
-  }
-
-  .form-grid{
-
-    grid-template-columns:1fr;
-
-  }
-
-  .full{
-
-    grid-column:auto;
-
-  }
-
-  .topbar{
-
-    flex-wrap:wrap;
-
-  }
-
-  .section-header{
-
-    align-items:flex-start;
-
-    flex-direction:column;
-
-  }
-
-  .section-tools{
-
-    width:100%;
-
-    justify-content:space-between;
-
-  }
-
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .main-tabs{grid-template-columns:1fr;}
+  .form-grid{grid-template-columns:1fr;}
+  .full{grid-column:auto;}
+  .topbar{flex-wrap:wrap;}
+  .page-header{align-items:stretch;}
+  .page-header h2{width:100%;order:-1;}
 }
-
-
-/* =========================================================
-   MOBILE TABLE AS CARDS
-========================================================= */
 
 @media(max-width:700px){
-
-  .table-wrapper{
-
-    overflow:visible;
-
-  }
-
-  table,
-  thead,
-  tbody,
-  tr,
-  th,
-  td{
-
-    display:block;
-
-  }
-
-  table{
-
-    min-width:0;
-
-  }
-
-  thead{
-
-    display:none;
-
-  }
-
-  tbody tr{
-
-    margin:12px;
-
-    padding:8px 0;
-
-    background:#15171a;
-
-    border:
-      1px solid
-      #34373d;
-
-    border-radius:14px;
-
-    overflow:hidden;
-
-  }
-
-  td{
-
-    position:relative;
-
-    min-height:43px;
-
-    padding:
-      10px 12px 10px 45%;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:flex-start;
-
-    border-bottom:
-      1px solid
-      #292c31;
-
-    text-align:right;
-
-  }
-
-  td::before{
-
-    content:
-      attr(data-label);
-
-    position:absolute;
-
-    right:12px;
-
-    width:40%;
-
-    color:
-      var(--gold-light);
-
-    font-weight:800;
-
-    font-size:11px;
-
-  }
-
-  td:last-child{
-
-    border-bottom:0;
-
-  }
-
-  td.empty{
-
-    display:block;
-
-    padding:
-      25px!important;
-
-  }
-
-  td.empty::before{
-
-    display:none;
-
-  }
-
-  .actions{
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    gap:6px;
-
-    padding:10px;
-
-  }
-
-  .actions::before{
-
-    display:none;
-
-  }
-
-  .actions .btn{
-
-    flex:1;
-
-  }
-
+  body{font-size:14px;}
+  .container{padding-inline:10px;}
+  .topbar{padding:10px;gap:8px;}
+  .brand{flex:1 1 100%;text-align:center;}
+  .user-area{width:100%;justify-content:center;}
+  .user-name{display:none;}
+  .hero{padding:22px 0 16px;}
+  .hero h1{font-size:clamp(21px,7vw,30px);line-height:1.45;}
+  .hero p{font-size:12px;line-height:1.8;}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}
+  .stat{padding:12px;border-radius:13px;}
+  .stat-number{font-size:23px;}
+  .main-tab{padding:17px;border-radius:16px;}
+  .main-tab strong{font-size:16px;line-height:1.5;}
+  .main-tab small{line-height:1.7;}
+  .page-header{padding:14px 0;gap:9px;}
+  .page-header h2{font-size:20px;}
+  .page-header .page-actions{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .page-header .page-actions .btn{width:100%;padding-inline:8px;}
+  .section{margin:12px 0;border-radius:16px;}
+  .section-header{padding:13px 12px;align-items:flex-start;flex-direction:column;}
+  .section-tools{width:100%;justify-content:space-between;}
+  .section-tools .btn{flex:1;min-width:120px;}
+  .table-wrapper{overflow:visible;}
+  table{display:block;width:100%;min-width:0;table-layout:auto;}
+  thead{display:none;}
+  tbody{display:block;width:100%;}
+  tbody tr{display:block;width:calc(100% - 16px);margin:8px;background:linear-gradient(145deg,#191b20,#101114);border:1px solid #34373d;border-radius:14px;overflow:hidden;box-shadow:0 10px 28px rgba(0,0,0,.22);}
+  tbody tr:hover{background:linear-gradient(145deg,#191b20,#101114);}
+  tbody td{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;width:100%;min-height:48px;padding:10px 11px;border-bottom:1px solid #292c31;text-align:right;font-size:12px;line-height:1.7;}
+  tbody td:last-child{border-bottom:0;}
+  tbody td::before{content:attr(data-label);flex:0 0 40%;max-width:40%;color:var(--gold-light);font-weight:800;white-space:normal;line-height:1.6;}
+  tbody td > *{max-width:58%;}
+  tbody td.empty{display:block!important;text-align:center;padding:22px!important;color:var(--muted);}
+  tbody td.empty::before{display:none;}
+  .actions{display:grid!important;grid-template-columns:1fr 1fr;gap:8px;align-items:center;}
+  .actions::before{display:none;}
+  .actions .btn{width:100%;min-height:42px;}
+  .status{max-width:100%!important;white-space:normal;word-break:break-word;text-align:center;}
+  .modal{padding:10px;}
+  .modal-card{width:calc(100vw - 20px);padding:16px;border-radius:16px;max-height:94vh;}
+  .modal-title{font-size:19px;line-height:1.5;}
+  .form-control{font-size:16px;min-height:46px;}
+  textarea.form-control{min-height:110px;}
+  .modal-actions{display:grid;grid-template-columns:1fr 1fr;}
+  .modal-actions .btn{width:100%;}
+  .login-page{padding:14px;}
+  .login-card{width:min(450px,100%);padding:24px 18px;border-radius:20px;}
 }
 
-
-/* =========================================================
-   SMALL MOBILE
-========================================================= */
-
-@media(max-width:520px){
-
-  .container{
-
-    width:94%;
-
-  }
-
-  .hero{
-
-    padding-top:25px;
-
-  }
-
-  .hero h1{
-
-    font-size:25px;
-
-  }
-
-  .stats{
-
-    grid-template-columns:1fr;
-
-  }
-
-  .user-name{
-
-    display:none;
-
-  }
-
-  .brand{
-
-    font-size:14px;
-
-  }
-
-  .login-card{
-
-    padding:
-      26px 20px;
-
-  }
-
-  .modal{
-
-    padding:8px;
-
-  }
-
-  .modal-card{
-
-    width:100%;
-
-    max-height:96vh;
-
-    padding:18px;
-
-    border-radius:17px;
-
-  }
-
-  .modal-actions{
-
-    flex-direction:column;
-
-  }
-
-  .modal-actions .btn{
-
-    width:100%;
-
-  }
-
-  .page-header h2{
-
-    font-size:20px;
-
-  }
-
-  .page-actions{
-
-    width:100%;
-
-  }
-
-  .page-actions .btn{
-
-    flex:1;
-
-  }
-
+@media(max-width:380px){
+  .stats{grid-template-columns:1fr;}
+  .user-area{gap:6px;}
+  .btn{padding-inline:10px;}
+  .section-tools{flex-direction:column;align-items:stretch;}
+  .section-tools .btn{width:100%;}
+  tbody tr{width:calc(100% - 10px);margin:5px;}
+  tbody td::before{flex-basis:44%;max-width:44%;}
+  tbody td > *{max-width:54%;}
 }
 
-
-/* =========================================================
-   PRINT REPORT
-========================================================= */
-
-@media print{
-
-  body{
-
-    background:#fff!important;
-
-    color:#111!important;
-
-  }
-
-  body *{
-
-    visibility:hidden!important;
-
-  }
-
-  #printReport,
-  #printReport *{
-
-    visibility:visible!important;
-
-  }
-
-  #printReport{
-
-    position:absolute;
-
-    top:0;
-
-    right:0;
-
-    width:100%;
-
-    background:#fff;
-
-    color:#111;
-
-    padding:15px;
-
-  }
-
-  #printReport h1{
-
-    color:#111;
-
-    text-align:center;
-
-  }
-
-  #printReport h2{
-
-    color:#333;
-
-    margin-top:25px;
-
-  }
-
-  #printReport table{
-
-    width:100%;
-
-    min-width:0;
-
-    border-collapse:collapse;
-
-    color:#111;
-
-  }
-
-  #printReport th,
-  #printReport td{
-
-    border:1px solid #999;
-
-    color:#111;
-
-    background:#fff;
-
-    padding:6px;
-
-    font-size:9px;
-
-  }
-
-  #printReport th{
-
-    font-weight:800;
-
-  }
-
+@media(hover:none){
+  .btn:hover,.main-tab:hover{transform:none;}
 }
-
-
-/* =========================================================
-   PRINT REPORT CONTAINER
-========================================================= */
-
-#printReport{
-
-  display:none;
-
-}
-
 </style>
-
 </head>
-
 
 <body>
 
-
-<!-- =========================================================
-     FIREBASE LOADING
-========================================================= -->
-
-<div
-  id="authOverlay"
-  class="auth-overlay">
-
+<!-- AUTH LOADING OVERLAY -->
+<div id="authOverlay" class="auth-overlay">
   <div class="auth-spinner"></div>
-
-  <p id="authStatus">
-    جارٍ الاتصال بخادم Firebase...
-  </p>
-
+  <p id="authStatus">جارٍ الاتصال بخادم Firebase...</p>
 </div>
 
-
-<!-- =========================================================
-     LOGIN
-========================================================= -->
-
-<div
-  id="loginPage"
-  class="login-page hidden">
-
+<!-- LOGIN -->
+<div id="loginPage" class="login-page hidden">
   <div class="login-card">
-
-    <div class="logo">
-      SOPC
-    </div>
-
-    <h1 class="login-title">
-      SOPC
-    </h1>
-
-    <div class="login-subtitle">
-      قطاع المشتريات الخارجية
-    </div>
-
+    <div class="logo">SOPC</div>
+    <h1 class="login-title">SOPC</h1>
+    <div class="login-subtitle">نظام إدارة قطاع المشتريات الخارجية</div>
 
     <form id="loginForm">
-
       <div class="form-group">
-
-        <label>
-          اسم المستخدم
-        </label>
-
-        <input
-          id="username"
-          class="form-control"
-          type="text"
-          placeholder="اسم المستخدم"
-          required
-          autocomplete="username">
-
+        <label>اسم المستخدم</label>
+        <input id="username" class="form-control" type="text" placeholder="اسم المستخدم" required autocomplete="username">
       </div>
-
-
       <div class="form-group">
-
-        <label>
-          كلمة المرور
-        </label>
-
-        <input
-          id="password"
-          class="form-control"
-          type="password"
-          placeholder="كلمة المرور"
-          required
-          autocomplete="current-password">
-
+        <label>كلمة المرور</label>
+        <input id="password" class="form-control" type="password" placeholder="كلمة المرور" required autocomplete="current-password">
       </div>
-
-
-      <button
-        type="submit"
-        class="btn btn-primary login-button">
-
-        تسجيل الدخول
-
-      </button>
-
-
-      <div
-        id="loginMessage"
-        class="message">
-      </div>
-
+      <button type="submit" id="loginBtn" class="btn btn-primary login-button">تسجيل الدخول</button>
+      <div id="loginMessage" class="message"></div>
     </form>
-
   </div>
-
 </div>
 
-
-<!-- =========================================================
-     APPLICATION
-========================================================= -->
-
-<div
-  id="appPage"
-  class="hidden">
-
+<!-- APP -->
+<div id="appPage" class="hidden">
 
 <header class="topbar">
-
   <div class="brand">
-
-    SOPC
-    <span>◆</span>
-    قطاع المشتريات الخارجية
-
+    SOPC <span>◆</span> إدارة قطاع المشتريات الخارجية
   </div>
-
-
   <div class="user-area">
-
-    <span
-      id="currentUsername"
-      class="user-name">
-    </span>
-
-    <span
-      id="currentRole"
-      class="role">
-    </span>
-
-    <button
-      id="logout"
-      class="btn btn-secondary">
-
-      خروج
-
-    </button>
-
+    <span id="currentUsername" class="user-name"></span>
+    <span id="currentRole" class="role"></span>
+    <button id="logout" class="btn btn-secondary">خروج</button>
   </div>
-
 </header>
-
 
 <main class="container">
 
-
-<!-- =========================================================
-     HOME
-========================================================= -->
-
-<section id="homePage">
-
-  <div class="hero">
-
-    <h1>
-      قطاع المشتريات الخارجية بــ SOPC
-    </h1>
-
-    <p>
-      نظام موحد لإدارة ومتابعة المشتريات والتعاقدات الخارجية
-    </p>
-
-  </div>
-
-
-  <section class="stats">
-
-    <div class="stat">
-
-      <span
-        id="purchaseTotal"
-        class="stat-number">
-        0
-      </span>
-
-      <span class="stat-label">
-        عمليات المشتريات
-      </span>
-
+  <!-- HOME -->
+  <section id="homePage">
+    <div class="hero">
+      <h1>لوحة إدارة قطاع المشتريات الخارجية</h1>
+      <p>نظام موحد لمتابعة موقف المشتريات والتعاقدات الخارجية</p>
     </div>
 
+    <section class="stats">
+      <div class="stat">
+        <span id="purchaseTotal" class="stat-number">0</span>
+        <span class="stat-label">عمليات المشتريات</span>
+      </div>
+      <div class="stat">
+        <span id="contractTotal" class="stat-number">0</span>
+        <span class="stat-label">عمليات التعاقدات</span>
+      </div>
+      <div class="stat">
+        <span id="pendingTotal" class="stat-number">0</span>
+        <span class="stat-label">عمليات قيد المتابعة</span>
+      </div>
+      <div class="stat">
+        <span id="recordTotal" class="stat-number">0</span>
+        <span class="stat-label">إجمالي العمليات</span>
+      </div>
+    </section>
 
-    <div class="stat">
-
-      <span
-        id="contractTotal"
-        class="stat-number">
-        0
-      </span>
-
-      <span class="stat-label">
-        عمليات التعاقدات
-      </span>
-
+    <div class="main-tabs">
+      <button class="main-tab" data-target="purchases">
+        <div class="tab-icon">▣</div>
+        <strong>إدارة المشتريات الخارجية</strong>
+        <small>المناقصات المحدودة الخارجية والشراء التخصصي</small>
+      </button>
+      <button class="main-tab" data-target="contracts">
+        <div class="tab-icon">◆</div>
+        <strong>إدارة التعاقدات الخارجية</strong>
+        <small>متابعة التوريد والاعتمادات وأوامر التوريد</small>
+      </button>
     </div>
-
-
-    <div class="stat">
-
-      <span
-        id="pendingTotal"
-        class="stat-number">
-        0
-      </span>
-
-      <span class="stat-label">
-        عمليات قيد المتابعة
-      </span>
-
-    </div>
-
-
-    <div class="stat">
-
-      <span
-        id="recordTotal"
-        class="stat-number">
-        0
-      </span>
-
-      <span class="stat-label">
-        إجمالي العمليات
-      </span>
-
-    </div>
-
   </section>
 
-
-  <div class="main-tabs">
-
-    <button
-      class="main-tab"
-      data-target="purchases">
-
-      <div class="tab-icon">
-        ▣
+  <!-- PURCHASES PAGE -->
+  <section id="purchasesPage" class="hidden">
+    <div class="page-header">
+      <button class="back-button" data-back="home">← رجوع للرئيسية</button>
+      <h2>إدارة المشتريات الخارجية</h2>
+      <div class="page-actions">
+        <button class="btn btn-primary" id="exportPurchasesBtn">تصدير Excel</button>
+        <button class="btn btn-secondary" id="printPurchasesBtn">🖨 طباعة / PDF</button>
       </div>
+    </div>
+    <div id="purchasesContainer"></div>
+  </section>
 
-      <strong>
-        إدارة المشتريات الخارجية
-      </strong>
-
-      <small>
-        المناقصات المحدودة الخارجية والشراء التخصصي
-      </small>
-
-    </button>
-
-
-    <button
-      class="main-tab"
-      data-target="contracts">
-
-      <div class="tab-icon">
-        ◆
+  <!-- CONTRACTS PAGE -->
+  <section id="contractsPage" class="hidden">
+    <div class="page-header">
+      <button class="back-button" data-back="home">← رجوع للرئيسية</button>
+      <h2>إدارة التعاقدات الخارجية</h2>
+      <div class="page-actions">
+        <button class="btn btn-primary" id="exportContractsBtn">تصدير Excel</button>
+        <button class="btn btn-secondary" id="printContractsBtn">🖨 طباعة / PDF</button>
       </div>
-
-      <strong>
-        إدارة التعاقدات الخارجية
-      </strong>
-
-      <small>
-        متابعة التوريد والاعتمادات وأوامر التوريد
-      </small>
-
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- =========================================================
-     PURCHASES PAGE
-========================================================= -->
-
-<section
-  id="purchasesPage"
-  class="hidden">
-
-  <div class="page-header">
-
-    <button
-      class="back-button"
-      data-back="home">
-
-      ← رجوع للرئيسية
-
-    </button>
-
-
-    <h2>
-      إدارة المشتريات الخارجية
-    </h2>
-
-
-    <div class="page-actions">
-
-      <button
-        id="exportPurchasesBtn"
-        class="btn btn-export">
-
-        ⇩ تصدير Excel
-
-      </button>
-
-
-      <button
-        id="printPurchasesBtn"
-        class="btn btn-print">
-
-        🖨 طباعة / PDF
-
-      </button>
-
     </div>
-
-  </div>
-
-
-  <div
-    id="purchasesContainer">
-  </div>
-
-</section>
-
-
-<!-- =========================================================
-     CONTRACTS PAGE
-========================================================= -->
-
-<section
-  id="contractsPage"
-  class="hidden">
-
-  <div class="page-header">
-
-    <button
-      class="back-button"
-      data-back="home">
-
-      ← رجوع للرئيسية
-
-    </button>
-
-
-    <h2>
-      إدارة التعاقدات الخارجية
-    </h2>
-
-
-    <div class="page-actions">
-
-      <button
-        id="exportContractsBtn"
-        class="btn btn-export">
-
-        ⇩ تصدير Excel
-
-      </button>
-
-
-      <button
-        id="printContractsBtn"
-        class="btn btn-print">
-
-        🖨 طباعة / PDF
-
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <div
-    id="contractsContainer">
-  </div>
-
-</section>
-
+    <div id="contractsContainer"></div>
+  </section>
 
 </main>
-
 </div>
 
-
-<!-- =========================================================
-     RECORD MODAL
-========================================================= -->
-
-<div
-  id="recordModal"
-  class="modal hidden">
-
+<!-- MODAL -->
+<div id="recordModal" class="modal hidden">
   <div class="modal-card">
-
-    <h2
-      id="recordModalTitle"
-      class="modal-title">
-
-      إضافة عملية
-
-    </h2>
-
-
+    <h2 id="recordModalTitle" class="modal-title">إضافة عملية</h2>
     <form id="recordForm">
-
-      <div
-        id="recordFields"
-        class="form-grid">
-      </div>
-
-
+      <div id="recordFields" class="form-grid"></div>
       <div class="modal-actions">
-
-        <button
-          type="submit"
-          id="saveRecordBtn"
-          class="btn btn-primary">
-
-          حفظ
-
-        </button>
-
-
-        <button
-          type="button"
-          id="cancelRecord"
-          class="btn btn-secondary">
-
-          إلغاء
-
-        </button>
-
+        <button type="submit" id="saveRecordBtn" class="btn btn-primary">حفظ</button>
+        <button type="button" id="cancelRecord" class="btn btn-secondary">إلغاء</button>
       </div>
-
-
-      <div
-        id="recordMessage"
-        class="message">
-      </div>
-
+      <div id="recordMessage" class="message"></div>
     </form>
-
   </div>
-
 </div>
 
+<!-- TOAST -->
+<div id="toast" class="toast"></div>
 
-<!-- =========================================================
-     TOAST
-========================================================= -->
-
-<div
-  id="toast"
-  class="toast">
-</div>
-
-
-<!-- =========================================================
-     PRINT REPORT
-========================================================= -->
-
-<div id="printReport"></div>
-
-
-<!-- =========================================================
-     FIREBASE SDK
-========================================================= -->
-
+<!-- FIREBASE SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
-
 <script>
-
-/* =========================================================
-   FIREBASE CONFIG
-========================================================= */
-
+/* ================= FIREBASE ================= */
 const firebaseConfig = {
-
-  apiKey:
-    "AIzaSyC9xk2S-zfckExI0Yrc-QxuoeerneRWhMc",
-
-  authDomain:
-    "fpdegy.firebaseapp.com",
-
-  projectId:
-    "fpdegy",
-
-  storageBucket:
-    "fpdegy.firebasestorage.app",
-
-  messagingSenderId:
-    "619189894563",
-
-  appId:
-    "1:619189894563:web:9cb2283a63af7909346e16",
-
-  measurementId:
-    "G-13JZVW706X"
-
+  apiKey: "AIzaSyC9xk2S-zfckExI0Yrc-QxuoeerneRWhMc",
+  authDomain: "fpdegy.firebaseapp.com",
+  projectId: "fpdegy",
+  storageBucket: "fpdegy.firebasestorage.app",
+  messagingSenderId: "619189894563",
+  appId: "1:619189894563:web:9cb2283a63af7909346e16",
+  measurementId: "G-13JZVW706X"
 };
 
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
 
-firebase.initializeApp(
-  firebaseConfig
-);
-
-
-const auth =
-  firebase.auth();
-
-
-const db =
-  firebase.firestore();
-
-
-db.enablePersistence({
-  synchronizeTabs:true
-}).catch(error=>{
-
-  console.warn(
-    "Persistence not enabled:",
-    error.code
-  );
-
+// تفعيل الكاش المحلي لـ Firestore
+db.enablePersistence({ synchronizeTabs: true }).catch(err => {
+  console.warn("Persistence not enabled:", err.code);
 });
 
+const PURCHASES_COL = "purchases";
+const CONTRACTS_COL = "contracts";
 
-/* =========================================================
-   COLLECTIONS
-========================================================= */
-
-const PURCHASES_COL =
-  "purchases";
-
-const CONTRACTS_COL =
-  "contracts";
-
-
-/* =========================================================
-   USERS
-========================================================= */
-
+/* ================= USERS ================= */
 const USERS = {
-
-  fpdm:{
-    password:"1234",
-    role:"admin",
-    name:"مدير النظام"
-  },
-
-  fpd1:{
-    password:"1234",
-    role:"viewer",
-    name:"مستخدم اطلاع"
-  }
-
+  fpdm: { password:"1234", role:"admin",  name:"مدير النظام" },
+  fpd1:  { password:"1234", role:"viewer", name:"مستخدم اطلاع" }
 };
 
+const SESSION_KEY = "SOPC_SESSION";
 
-const SESSION_KEY =
-  "SOPC_SESSION";
-
-
-/* =========================================================
-   STATE
-========================================================= */
-
+/* ================= GLOBAL STATE ================= */
 let currentUser = null;
-
 let currentRecordType = "";
-
 let currentGroup = "";
-
 let currentCategory = "";
-
 let editingId = null;
-
-let toastTimer = null;
-
+let authReady = false;
 
 const state = {
-
-  purchases:[],
-
-  contracts:[],
-
-  loaded:false,
-
-  unsubscribers:[]
-
+  purchases: [],
+  contracts: [],
+  loaded: false,
+  unsubscribers: []
 };
 
-
-/* =========================================================
-   FIELD DEFINITIONS
-========================================================= */
-
-
-/*
-  حقل نوع المهمات موجود في جميع الأقسام.
-*/
-
-
-const commonPurchaseFields = [
-
-  {
-    key:"taskType",
-    label:"نوع المهمات",
-    type:"text"
-  },
-
-  {
-    key:"purchaseRequestNumber",
-    label:"رقم طلب الشراء",
-    type:"text"
-  },
-
-  {
-    key:"purchaseRequestDate",
-    label:"تاريخ طلب الشراء",
-    type:"date"
-  },
-
-  {
-    key:"operator",
-    label:"اسم منفذ العملية",
-    type:"text"
-  },
-
-  {
-    key:"estimatedValue",
-    label:"القيمة التقديرية",
-    type:"number"
-  },
-
-  {
-    key:"notes",
-    label:"ملاحظات",
-    type:"textarea"
-  }
-
-];
-
-
-/* =========================================================
-   LIMITED TENDER
-========================================================= */
-
-const limitedTenderFields = [
-
-  {
-    key:"tenderNumber",
-    label:"رقم المناقصة",
-    type:"text"
-  },
-
-  {
-    key:"tenderStatus",
-    label:"موقف المناقصة",
-    type:"text"
-  },
-
-  ...commonPurchaseFields
-
-];
-
-
-/* =========================================================
-   SPECIALTY PURCHASE
-========================================================= */
-
-const specialtyPurchaseFields = [
-
-  {
-    key:"operationNumber",
-    label:"رقم العملية",
-    type:"text"
-  },
-
-  {
-    key:"operationStatus",
-    label:"موقف العملية",
-    type:"text"
-  },
-
-  ...commonPurchaseFields
-
-];
-
-
-/* =========================================================
-   CONTRACTS
-========================================================= */
+/* ================= FIELDS ================= */
+const purchaseFields = {
+  "مناقصات محدودة خارجية": [
+    { key:"tenderNumber", label:"رقم المناقصة", type:"text" },
+    { key:"tenderStatus", label:"موقف المناقصة", type:"text" },
+    { key:"taskType", label:"نوع المهمات", type:"text" },
+    { key:"purchaseRequestNumber", label:"رقم طلب الشراء", type:"text" },
+    { key:"purchaseRequestDate", label:"تاريخ طلب الشراء", type:"date" },
+    { key:"operator", label:"اسم منفذ العملية", type:"text" },
+    { key:"estimatedValue", label:"القيمة التقديرية", type:"number" },
+    { key:"notes", label:"ملاحظات", type:"textarea" }
+  ],
+  "شراء تخصصي": [
+    { key:"operationNumber", label:"رقم العملية", type:"text" },
+    { key:"operationStatus", label:"موقف العملية", type:"text" },
+    { key:"taskType", label:"نوع المهمات", type:"text" },
+    { key:"purchaseRequestNumber", label:"رقم طلب الشراء", type:"text" },
+    { key:"purchaseRequestDate", label:"تاريخ طلب الشراء", type:"date" },
+    { key:"operator", label:"اسم منفذ العملية", type:"text" },
+    { key:"estimatedValue", label:"القيمة التقديرية", type:"number" },
+    { key:"notes", label:"ملاحظات", type:"textarea" }
+  ]
+};
 
 const contractFields = [
-
-  {
-    key:"operationNumber",
-    label:"رقم العملية",
-    type:"text"
-  },
-
-  {
-    key:"taskType",
-    label:"نوع المهمات",
-    type:"text"
-  },
-
-  {
-    key:"supplyStatus",
-    label:"موقف التوريد",
-    type:"text"
-  },
-
-  {
-    key:"importApprovalNumber",
-    label:"رقم الموافقة الاستيرادية",
-    type:"text"
-  },
-
-  {
-    key:"lcOpeningDate",
-    label:"تاريخ فتح الاعتماد",
-    type:"date"
-  },
-
-  {
-    key:"supplyPeriod",
-    label:"مدة التوريد",
-    type:"text"
-  },
-
-  {
-    key:"actualValue",
-    label:"القيمة الفعلية",
-    type:"number"
-  },
-
-  {
-    key:"lateFines",
-    label:"غرامات التأخير",
-    type:"number"
-  },
-
-  {
-    key:"supplyOrderNumber",
-    label:"رقم أمر التوريد",
-    type:"text"
-  },
-
-  {
-    key:"documentaryCreditNumber",
-    label:"رقم الاعتماد المستندي",
-    type:"text"
-  },
-
-  {
-    key:"supplyPosition",
-    label:"موقف التوريد",
-    type:"text"
-  },
-
-  {
-    key:"notes",
-    label:"ملاحظات",
-    type:"textarea"
-  }
-
+  { key:"operationNumber", label:"رقم العملية", type:"text" },
+  { key:"taskType", label:"نوع المهمات", type:"text" },
+  { key:"supplyStatus", label:"موقف التوريد", type:"text" },
+  { key:"importApprovalNumber", label:"رقم الموافقة الاستيرادية", type:"text" },
+  { key:"lcOpeningDate", label:"تاريخ فتح الاعتماد", type:"date" },
+  { key:"supplyPeriod", label:"مدة التوريد", type:"text" },
+  { key:"actualValue", label:"القيمة الفعلية", type:"number" },
+  { key:"lateFines", label:"غرامات التأخير", type:"number" },
+  { key:"supplyOrderNumber", label:"رقم أمر التوريد", type:"text" },
+  { key:"documentaryCreditNumber", label:"رقم الاعتماد المستندي", type:"text" },
+  { key:"supplyPosition", label:"موقف التوريد", type:"text" },
+  { key:"notes", label:"ملاحظات", type:"textarea" }
 ];
 
+const groups = ["مستلزمات","استثماري"];
+const categories = ["مناقصات محدودة خارجية","شراء تخصصي"];
 
-const groups = [
+/* ================= HELPERS ================= */
+function $(sel){ return document.querySelector(sel); }
 
-  "مستلزمات",
-
-  "استثماري"
-
-];
-
-
-const categories = [
-
-  "مناقصات محدودة خارجية",
-
-  "شراء تخصصي"
-
-];
-
-
-/* =========================================================
-   HELPERS
-========================================================= */
-
-function $(selector){
-
-  return document.querySelector(selector);
-
+function escapeHTML(v){
+  return String(v ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+  }[c]));
 }
 
-
-function escapeHTML(value){
-
-  return String(value ?? "")
-    .replace(/[&<>"']/g,char=>({
-
-      "&":"&amp;",
-      "<":"&lt;",
-      ">":"&gt;",
-      '"':"&quot;",
-      "'":"&#039;"
-
-    }[char]));
-
-}
-
-
-function isAdmin(){
-
-  return currentUser &&
-         currentUser.role === "admin";
-
-}
-
+function isAdmin(){ return currentUser && currentUser.role === "admin"; }
 
 function generateId(){
-
-  return Date.now().toString(36) +
-
-    Math.random()
-      .toString(36)
-      .substring(2,8);
-
+  return Date.now().toString(36) + Math.random().toString(36).substring(2,8);
 }
 
-
-/* =========================================================
-   GET FIELDS
-========================================================= */
-
-function getFields(type,category){
-
-  if(type === "contract"){
-
-    return contractFields;
-
-  }
-
-  if(category === "شراء تخصصي"){
-
-    return specialtyPurchaseFields;
-
-  }
-
-  return limitedTenderFields;
-
-}
-
-
-/* =========================================================
-   TOAST
-========================================================= */
-
-function showToast(
-  message,
-  type="info"
-){
-
-  const toast =
-    $("#toast");
-
-  toast.className =
-    "toast toast-" + type;
-
-  toast.textContent =
-    message;
-
+/* ================= TOAST ================= */
+let toastTimer = null;
+function showToast(message, type = "info"){
+  const toast = $("#toast");
+  toast.className = "toast toast-" + type;
+  toast.textContent = message;
   toast.classList.add("show");
-
   clearTimeout(toastTimer);
-
-  toastTimer =
-    setTimeout(()=>{
-
-      toast.classList.remove(
-        "show"
-      );
-
-    },3500);
-
+  toastTimer = setTimeout(() => {
+    toast.classList.remove("show");
+  }, 3000);
 }
 
-
 /* =========================================================
-   FIREBASE AUTH
-========================================================= */
+   FIREBASE ANONYMOUS AUTH (الحل الدائم لصلاحية القواعد)
+   =========================================================
+   عند نجاح المصادقة المجهولة:
+   - يحصل المستخدم على UID مجهول
+   - request.auth != null يصبح صحيحاً
+   - القواعد تسمح بالقراءة والكتابة بلا انتهاء صلاحية
+   ========================================================= */
 
-function initAuth(){
-
-  return new Promise(
-    (resolve,reject)=>{
-
-      auth.onAuthStateChanged(
-        async user=>{
-
-          if(user){
-
-            hideAuthOverlay();
-
-            resolve(user);
-
-            return;
-
-          }
-
-
-          try{
-
-            $("#authStatus")
-              .textContent =
-              "جارٍ إنشاء جلسة آمنة...";
-
-
-            await auth
-              .signInAnonymously();
-
-
-          }catch(error){
-
-            console.error(error);
-
-            $("#authStatus")
-              .textContent =
-              "فشل الاتصال بـ Firebase. " +
-              "تأكد من تفعيل Anonymous Authentication.";
-
-            reject(error);
-
-          }
-
+function initAuth() {
+  return new Promise((resolve, reject) => {
+    // نستمع لتغيّر حالة المصادقة
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        // مستخدم مُصادَق عليه (مجهول أو حقيقي)
+        authReady = true;
+        hideAuthOverlay();
+        resolve(user);
+      } else {
+        // لا يوجد مستخدم → سجّل دخول مجهول
+        try {
+          $("#authStatus").textContent = "جارٍ إنشاء جلسة آمنة...";
+          await auth.signInAnonymously();
+          // onAuthStateChanged سيُستدعى مرة أخرى مع المستخدم الجديد
+        } catch (error) {
+          console.error("Auth error:", error);
+          $("#authStatus").textContent =
+            "فشل الاتصال بـ Firebase: " + error.message +
+            " — تأكد من تفعيل Anonymous Authentication في Firebase Console.";
+          reject(error);
         }
-      );
-
-    }
-  );
-
+      }
+    });
+  });
 }
 
-
-function hideAuthOverlay(){
-
-  const overlay =
-    $("#authOverlay");
-
-  if(!overlay) return;
-
-  overlay.style.opacity =
-    "0";
-
-  overlay.style.transition =
-    "opacity .3s";
-
-  setTimeout(()=>{
-
-    overlay.classList.add(
-      "hidden"
-    );
-
-  },300);
-
+function hideAuthOverlay() {
+  const overlay = $("#authOverlay");
+  if (overlay) {
+    overlay.style.opacity = "0";
+    overlay.style.transition = "opacity .3s";
+    setTimeout(() => overlay.classList.add("hidden"), 300);
+  }
 }
 
-
-/* =========================================================
-   REALTIME FIRESTORE
-========================================================= */
-
+/* ================= REALTIME LISTENERS ================= */
 function startRealtimeListeners(){
 
-  stopRealtimeListeners();
-
-
-  const purchaseListener =
-    db.collection(
-      PURCHASES_COL
-    )
-    .onSnapshot(
-
-      snapshot=>{
-
-        state.purchases =
-          snapshot.docs.map(
-            doc=>({
-
-              id:doc.id,
-
-              ...doc.data()
-
-            })
-          );
-
-
-        state.loaded = true;
-
-        renderAll();
-
-      },
-
-      error=>{
-
-        console.error(error);
-
-        showToast(
-          "خطأ في تحميل المشتريات: " +
-          error.message,
-          "error"
-        );
-
-      }
-
-    );
-
-
-  const contractListener =
-    db.collection(
-      CONTRACTS_COL
-    )
-    .onSnapshot(
-
-      snapshot=>{
-
-        state.contracts =
-          snapshot.docs.map(
-            doc=>({
-
-              id:doc.id,
-
-              ...doc.data()
-
-            })
-          );
-
-
-        state.loaded = true;
-
-        renderAll();
-
-      },
-
-      error=>{
-
-        console.error(error);
-
-        showToast(
-          "خطأ في تحميل التعاقدات: " +
-          error.message,
-          "error"
-        );
-
-      }
-
-    );
-
-
-  state.unsubscribers.push(
-    purchaseListener,
-    contractListener
-  );
-
-}
-
-
-function stopRealtimeListeners(){
-
-  state.unsubscribers
-    .forEach(
-      unsubscribe =>
-        unsubscribe()
-    );
-
+  state.unsubscribers.forEach(unsub => unsub());
   state.unsubscribers = [];
 
-}
-
-
-/* =========================================================
-   RENDER ALL
-========================================================= */
-
-function renderAll(){
-
-  renderSections(
-    "purchasesContainer",
-    state.purchases,
-    "purchase"
-  );
-
-
-  renderSections(
-    "contractsContainer",
-    state.contracts,
-    "contract"
-  );
-
-
-  updateStatistics(
-    state.purchases,
-    state.contracts
-  );
-
-}
-
-
-/* =========================================================
-   LOGIN
-========================================================= */
-
-$("#loginForm")
-  .addEventListener(
-    "submit",
-    function(event){
-
-      event.preventDefault();
-
-
-      const username =
-        $("#username")
-        .value
-        .trim()
-        .toLowerCase();
-
-
-      const password =
-        $("#password").value;
-
-
-      const account =
-        USERS[username];
-
-
-      if(
-        !account ||
-        account.password !== password
-      ){
-
-        $("#loginMessage")
-          .textContent =
-          "اسم المستخدم أو كلمة المرور غير صحيحة.";
-
-        return;
-
+  const unsubPurchases = db.collection(PURCHASES_COL)
+    .onSnapshot(
+      snapshot => {
+        state.purchases = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        state.loaded = true;
+        renderAll();
+      },
+      error => {
+        console.error("Purchases listener error:", error);
+        showToast("خطأ في الاتصال بـ Firebase: " + error.message, "error");
       }
-
-
-      currentUser = {
-
-        username,
-
-        role:
-          account.role,
-
-        name:
-          account.name
-
-      };
-
-
-      sessionStorage.setItem(
-        SESSION_KEY,
-        JSON.stringify(
-          currentUser
-        )
-      );
-
-
-      $("#loginMessage")
-        .textContent = "";
-
-
-      openApplication();
-
-    }
-  );
-
-
-/* =========================================================
-   SESSION
-========================================================= */
-
-function checkSession(){
-
-  const session =
-    sessionStorage.getItem(
-      SESSION_KEY
     );
 
-
-  if(!session){
-
-    return false;
-
-  }
-
-
-  try{
-
-    currentUser =
-      JSON.parse(session);
-
-    return true;
-
-  }catch(error){
-
-    sessionStorage.removeItem(
-      SESSION_KEY
+  const unsubContracts = db.collection(CONTRACTS_COL)
+    .onSnapshot(
+      snapshot => {
+        state.contracts = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        state.loaded = true;
+        renderAll();
+      },
+      error => {
+        console.error("Contracts listener error:", error);
+        showToast("خطأ في الاتصال بـ Firebase: " + error.message, "error");
+      }
     );
 
-    return false;
-
-  }
-
+  state.unsubscribers.push(unsubPurchases, unsubContracts);
 }
 
+function stopRealtimeListeners(){
+  state.unsubscribers.forEach(unsub => unsub());
+  state.unsubscribers = [];
+}
 
-/* =========================================================
-   OPEN APPLICATION
-========================================================= */
+/* ================= RENDER ALL ================= */
+function renderAll(){
+  renderSections("purchasesContainer", state.purchases, "purchase");
+  renderSections("contractsContainer", state.contracts, "contract", contractFields);
+  updateStatistics(state.purchases, state.contracts);
+}
 
+/* ================= LOGIN ================= */
+$("#loginForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const username = $("#username").value.trim().toLowerCase();
+  const password = $("#password").value;
+  const account  = USERS[username];
+
+  if(!account || account.password !== password){
+    $("#loginMessage").textContent = "اسم المستخدم أو كلمة المرور غير صحيحة.";
+    return;
+  }
+
+  currentUser = { username, role:account.role, name:account.name };
+  sessionStorage.setItem(SESSION_KEY, JSON.stringify(currentUser));
+  openApplication();
+});
+
+/* ================= SESSION ================= */
+function checkSession(){
+  const session = sessionStorage.getItem(SESSION_KEY);
+  if(!session) return false;
+  try{
+    currentUser = JSON.parse(session);
+    return true;
+  }catch(e){
+    sessionStorage.removeItem(SESSION_KEY);
+    return false;
+  }
+}
+
+/* ================= OPEN APP ================= */
 function openApplication(){
+  $("#loginPage").classList.add("hidden");
+  $("#appPage").classList.remove("hidden");
+  $("#currentUsername").textContent = currentUser.name;
+  $("#currentRole").textContent = isAdmin() ? "ADMIN" : "اطلاع فقط";
 
-  $("#loginPage")
-    .classList.add(
-      "hidden"
-    );
-
-
-  $("#appPage")
-    .classList.remove(
-      "hidden"
-    );
-
-
-  $("#currentUsername")
-    .textContent =
-    currentUser.name;
-
-
-  $("#currentRole")
-    .textContent =
-      isAdmin()
-      ? "ADMIN"
-      : "اطلاع فقط";
-
+  if(state.loaded) renderAll();
 
   startRealtimeListeners();
-
-
   showPage("home");
-
 }
 
+/* ================= LOGOUT ================= */
+$("#logout").addEventListener("click", function(){
+  stopRealtimeListeners();
+  sessionStorage.removeItem(SESSION_KEY);
+  currentUser = null;
+  $("#appPage").classList.add("hidden");
+  $("#loginPage").classList.remove("hidden");
+  $("#username").value = "";
+  $("#password").value = "";
+  $("#loginMessage").textContent = "";
+});
 
-/* =========================================================
-   LOGOUT
-========================================================= */
-
-$("#logout")
-  .addEventListener(
-    "click",
-    function(){
-
-      stopRealtimeListeners();
-
-
-      sessionStorage.removeItem(
-        SESSION_KEY
-      );
-
-
-      currentUser = null;
-
-
-      $("#appPage")
-        .classList.add(
-          "hidden"
-        );
-
-
-      $("#loginPage")
-        .classList.remove(
-          "hidden"
-        );
-
-
-      $("#username").value = "";
-
-      $("#password").value = "";
-
-      $("#loginMessage")
-        .textContent = "";
-
-    }
-  );
-
-
-/* =========================================================
-   NAVIGATION
-========================================================= */
-
+/* ================= PAGE NAV ================= */
 function showPage(pageName){
+  $("#homePage").classList.toggle("hidden", pageName !== "home");
+  $("#purchasesPage").classList.toggle("hidden", pageName !== "purchases");
+  $("#contractsPage").classList.toggle("hidden", pageName !== "contracts");
 
-  $("#homePage")
-    .classList.toggle(
-      "hidden",
-      pageName !== "home"
-    );
-
-
-  $("#purchasesPage")
-    .classList.toggle(
-      "hidden",
-      pageName !== "purchases"
-    );
-
-
-  $("#contractsPage")
-    .classList.toggle(
-      "hidden",
-      pageName !== "contracts"
-    );
-
-
-  document
-    .querySelectorAll(".main-tab")
-    .forEach(button=>{
-
-      button.classList.toggle(
-        "active",
-        button.dataset.target === pageName
-      );
-
-    });
-
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
+  document.querySelectorAll(".main-tab").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.target === pageName);
   });
 
+  window.scrollTo(0,0);
 }
 
+document.querySelectorAll(".main-tab").forEach(btn => {
+  btn.addEventListener("click", () => showPage(btn.dataset.target));
+});
 
-document
-  .querySelectorAll(".main-tab")
-  .forEach(button=>{
+document.querySelectorAll(".back-button").forEach(btn => {
+  btn.addEventListener("click", () => showPage("home"));
+});
 
-    button.addEventListener(
-      "click",
-      ()=>{
-
-        showPage(
-          button.dataset.target
-        );
-
-      }
-    );
-
-  });
-
-
-document
-  .querySelectorAll(".back-button")
-  .forEach(button=>{
-
-    button.addEventListener(
-      "click",
-      ()=>{
-
-        showPage("home");
-
-      }
-    );
-
-  });
-
-
-/* =========================================================
-   RENDER SECTIONS
-========================================================= */
-
-function renderSections(
-  containerId,
-  data,
-  type
-){
-
-  const container =
-    $("#" + containerId);
-
-
+/* ================= RENDER SECTIONS ================= */
+function renderSections(containerId, data, type, fields){
+  const container = $("#" + containerId);
   if(!container) return;
 
-
   container.innerHTML = "";
 
+  groups.forEach(group => {
+    categories.forEach(category => {
+      const rows = data.filter(r => r.group === group && r.category === category);
+      const sectionFields = type === "purchase" ? purchaseFields[category] : contractFields;
 
-  groups.forEach(group=>{
-
-    categories.forEach(category=>{
-
-      const rows =
-        data.filter(
-          row =>
-            row.group === group &&
-            row.category === category
-        );
-
-
-      const fields =
-        getFields(
-          type,
-          category
-        );
-
-
-      const section =
-        document.createElement(
-          "section"
-        );
-
-
-      section.className =
-        "section";
-
+      const section = document.createElement("section");
+      section.className = "section";
 
       section.innerHTML = `
-
         <div class="section-header">
-
-          <h2 class="section-title">
-
-            ${escapeHTML(group)}
-            —
-            ${escapeHTML(category)}
-
-          </h2>
-
-
+          <h2 class="section-title">${escapeHTML(group)} — ${escapeHTML(category)}</h2>
           <div class="section-tools">
-
-            <span class="badge">
-
-              ${rows.length}
-              عملية
-
-            </span>
-
-
-            ${
-              isAdmin()
-              ?
-              `
-              <button
-                class="btn btn-primary add-button">
-
-                + إضافة
-
-              </button>
-              `
-              :
-              ""
-            }
-
+            <span class="badge">${rows.length} عملية</span>
+            ${isAdmin() ? `<button class="btn btn-primary add-button">+ إضافة</button>` : ""}
           </div>
-
         </div>
-
-
         <div class="table-wrapper">
-
           <table>
-
             <thead>
-
               <tr>
-
-                ${
-                  fields.map(
-                    field=>
-                    `
-                    <th>
-                      ${escapeHTML(
-                        field.label
-                      )}
-                    </th>
-                    `
-                  ).join("")
-                }
-
-
-                ${
-                  isAdmin()
-                  ?
-                  `
-                  <th>
-                    الإجراءات
-                  </th>
-                  `
-                  :
-                  ""
-                }
-
+                ${sectionFields.map(f => `<th>${escapeHTML(f.label)}</th>`).join("")}
+                ${isAdmin() ? `<th>الإجراءات</th>` : ""}
               </tr>
-
             </thead>
-
-
             <tbody>
-
               ${
                 rows.length
-
-                ?
-
-                rows.map(
-                  row=>
-                  createRow(
-                    row,
-                    type,
-                    fields
-                  )
-                ).join("")
-
-                :
-
-                `
-                <tr>
-
-                  <td
-                    class="empty"
-                    colspan="${
-                      fields.length +
-                      (isAdmin()?1:0)
-                    }">
-
-                    لا توجد عمليات مسجلة
-
-                  </td>
-
-                </tr>
-                `
+                  ? rows.map(r => createRow(r, type, sectionFields)).join("")
+                  : `<tr><td class="empty" colspan="${sectionFields.length + (isAdmin()?1:0)}">لا توجد عمليات مسجلة</td></tr>`
               }
-
             </tbody>
-
           </table>
-
         </div>
-
       `;
 
-
-      const addButton =
-        section.querySelector(
-          ".add-button"
-        );
-
-
-      if(addButton){
-
-        addButton.addEventListener(
-          "click",
-          ()=>{
-
-            openRecordModal(
-              type,
-              group,
-              category,
-              fields
-            );
-
-          }
-        );
-
+      const addBtn = section.querySelector(".add-button");
+      if(addBtn){
+        addBtn.addEventListener("click", () => openRecordModal(type, group, category, sectionFields));
       }
 
-
-      section
-        .querySelectorAll(
-          ".edit-button"
-        )
-        .forEach(button=>{
-
-          button.addEventListener(
-            "click",
-            ()=>{
-
-              const row =
-                rows.find(
-                  item =>
-                    item.id ===
-                    button.dataset.id
-                );
-
-
-              if(row){
-
-                openRecordModal(
-                  type,
-                  group,
-                  category,
-                  fields,
-                  row
-                );
-
-              }
-
-            }
-          );
-
+      section.querySelectorAll(".edit-button").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const row = rows.find(r => r.id === btn.dataset.id);
+          openRecordModal(type, group, category, fields, row);
         });
-
-
-      section
-        .querySelectorAll(
-          ".delete-button"
-        )
-        .forEach(button=>{
-
-          button.addEventListener(
-            "click",
-            ()=>{
-
-              deleteRecord(
-                type,
-                button.dataset.id
-              );
-
-            }
-          );
-
-        });
-
-
-      container.appendChild(
-        section
-      );
-
-    });
-
-  });
-
-}
-
-
-/* =========================================================
-   CREATE ROW
-========================================================= */
-
-function createRow(
-  row,
-  type,
-  fields
-){
-
-  let html =
-    "<tr>";
-
-
-  fields.forEach(field=>{
-
-    const value =
-      row[field.key] || "";
-
-
-    const isStatus =
-      field.key ===
-        "tenderStatus" ||
-
-      field.key ===
-        "operationStatus" ||
-
-      field.key ===
-        "supplyStatus" ||
-
-      field.key ===
-        "supplyPosition";
-
-
-    html += `
-
-      <td
-        data-label="${escapeHTML(
-          field.label
-        )}">
-
-        ${
-          isStatus
-
-          ?
-
-          createStatus(value)
-
-          :
-
-          escapeHTML(
-            value || "—"
-          )
-        }
-
-      </td>
-
-    `;
-
-  });
-
-
-  if(isAdmin()){
-
-    html += `
-
-      <td class="actions">
-
-        <button
-          class="btn btn-secondary edit-button"
-          data-id="${escapeHTML(row.id)}">
-
-          تعديل
-
-        </button>
-
-
-        <button
-          class="btn btn-danger delete-button"
-          data-id="${escapeHTML(row.id)}">
-
-          حذف
-
-        </button>
-
-      </td>
-
-    `;
-
-  }
-
-
-  html +=
-    "</tr>";
-
-
-  return html;
-
-}
-
-
-/* =========================================================
-   STATUS
-========================================================= */
-
-function createStatus(value){
-
-  const text =
-    String(
-      value ||
-      "غير محدد"
-    );
-
-
-  const lower =
-    text.toLowerCase();
-
-
-  let className =
-    "status-warning";
-
-
-  if(
-
-    lower.includes("تم") ||
-
-    lower.includes("مكتمل") ||
-
-    lower.includes("توريد") ||
-
-    lower.includes("منتهي")
-
-  ){
-
-    className =
-      "status-success";
-
-  }
-
-
-  if(
-
-    lower.includes("متوقف") ||
-
-    lower.includes("متأخر") ||
-
-    lower.includes("ملغ")
-
-  ){
-
-    className =
-      "status-danger";
-
-  }
-
-
-  return `
-
-    <span class="status ${className}">
-
-      ${escapeHTML(text)}
-
-    </span>
-
-  `;
-
-}
-
-
-/* =========================================================
-   STATISTICS
-========================================================= */
-
-function updateStatistics(
-  purchases,
-  contracts
-){
-
-  const totalPurchases =
-    purchases.length;
-
-
-  const totalContracts =
-    contracts.length;
-
-
-  const all = [
-    ...purchases,
-    ...contracts
-  ];
-
-
-  const pending =
-    all.filter(row=>{
-
-      const status =
-        row.tenderStatus ||
-
-        row.operationStatus ||
-
-        row.supplyStatus ||
-
-        row.supplyPosition ||
-
-        "";
-
-
-      return (
-
-        status === "" ||
-
-        !String(status)
-          .includes("تم")
-
-      );
-
-    });
-
-
-  $("#purchaseTotal")
-    .textContent =
-    totalPurchases;
-
-
-  $("#contractTotal")
-    .textContent =
-    totalContracts;
-
-
-  $("#recordTotal")
-    .textContent =
-    all.length;
-
-
-  $("#pendingTotal")
-    .textContent =
-    pending.length;
-
-}
-
-
-/* =========================================================
-   OPEN MODAL
-========================================================= */
-
-function openRecordModal(
-  type,
-  group,
-  category,
-  fields,
-  existing=null
-){
-
-  currentRecordType =
-    type;
-
-  currentGroup =
-    group;
-
-  currentCategory =
-    category;
-
-
-  editingId =
-    existing
-    ? existing.id
-    : null;
-
-
-  $("#recordModalTitle")
-    .textContent =
-      existing
-      ? "تعديل عملية"
-      : "إضافة عملية";
-
-
-  $("#recordMessage")
-    .textContent = "";
-
-
-  const container =
-    $("#recordFields");
-
-
-  container.innerHTML = "";
-
-
-  fields.forEach(field=>{
-
-    const wrapper =
-      document.createElement(
-        "div"
-      );
-
-
-    wrapper.className =
-      "form-group";
-
-
-    if(
-      field.type ===
-      "textarea"
-    ){
-
-      wrapper.classList.add(
-        "full"
-      );
-
-    }
-
-
-    const label =
-      document.createElement(
-        "label"
-      );
-
-
-    label.textContent =
-      field.label;
-
-
-    wrapper.appendChild(
-      label
-    );
-
-
-    let input;
-
-
-    if(
-      field.type ===
-      "textarea"
-    ){
-
-      input =
-        document.createElement(
-          "textarea"
-        );
-
-      input.rows = 4;
-
-    }else{
-
-      input =
-        document.createElement(
-          "input"
-        );
-
-      input.type =
-        field.type;
-
-    }
-
-
-    input.id =
-      "field_" +
-      field.key;
-
-
-    input.className =
-      "form-control";
-
-
-    input.value =
-      existing?.[field.key] ||
-      "";
-
-
-    wrapper.appendChild(
-      input
-    );
-
-
-    container.appendChild(
-      wrapper
-    );
-
-  });
-
-
-  $("#recordModal")
-    .classList.remove(
-      "hidden"
-    );
-
-}
-
-
-/* =========================================================
-   CLOSE MODAL
-========================================================= */
-
-$("#cancelRecord")
-  .addEventListener(
-    "click",
-    ()=>{
-
-      $("#recordModal")
-        .classList.add(
-          "hidden"
-        );
-
-    }
-  );
-
-
-$("#recordModal")
-  .addEventListener(
-    "click",
-    event=>{
-
-      if(
-        event.target.id ===
-        "recordModal"
-      ){
-
-        $("#recordModal")
-          .classList.add(
-            "hidden"
-          );
-
-      }
-
-    }
-  );
-
-
-/* =========================================================
-   SAVE
-========================================================= */
-
-$("#recordForm")
-  .addEventListener(
-    "submit",
-    async function(event){
-
-      event.preventDefault();
-
-
-      if(!isAdmin())
-        return;
-
-
-      const saveButton =
-        $("#saveRecordBtn");
-
-
-      const message =
-        $("#recordMessage");
-
-
-      saveButton.disabled =
-        true;
-
-
-      saveButton.textContent =
-        "جارٍ الحفظ...";
-
-
-      message.textContent =
-        "";
-
-
-      try{
-
-        const fields =
-          getFields(
-            currentRecordType,
-            currentCategory
-          );
-
-
-        const record = {
-
-          group:
-            currentGroup,
-
-          category:
-            currentCategory,
-
-          updatedAt:
-            new Date()
-              .toISOString()
-
-        };
-
-
-        fields.forEach(field=>{
-
-          const input =
-            $("#field_" +
-              field.key);
-
-
-          record[field.key] =
-            input
-            ?
-            input.value.trim()
-            :
-            "";
-
-        });
-
-
-        const collectionName =
-          currentRecordType ===
-          "purchase"
-
-          ?
-
-          PURCHASES_COL
-
-          :
-
-          CONTRACTS_COL;
-
-
-        if(editingId){
-
-          await db
-            .collection(
-              collectionName
-            )
-            .doc(editingId)
-            .set(
-              record,
-              {merge:true}
-            );
-
-
-          showToast(
-            "تم تحديث العملية بنجاح ✓",
-            "success"
-          );
-
-        }else{
-
-          record.createdAt =
-            new Date()
-              .toISOString();
-
-
-          record.id =
-            generateId();
-
-
-          await db
-            .collection(
-              collectionName
-            )
-            .doc(record.id)
-            .set(record);
-
-
-          showToast(
-            "تم حفظ العملية بنجاح ✓",
-            "success"
-          );
-
-        }
-
-
-        $("#recordModal")
-          .classList.add(
-            "hidden"
-          );
-
-
-        editingId = null;
-
-
-      }catch(error){
-
-        console.error(error);
-
-
-        message.textContent =
-          "خطأ في الحفظ: " +
-          error.message;
-
-
-        showToast(
-          "فشل الحفظ: " +
-          error.message,
-          "error"
-        );
-
-      }finally{
-
-        saveButton.disabled =
-          false;
-
-
-        saveButton.textContent =
-          "حفظ";
-
-      }
-
-    }
-  );
-
-
-/* =========================================================
-   DELETE
-========================================================= */
-
-async function deleteRecord(
-  type,
-  id
-){
-
-  if(!isAdmin())
-    return;
-
-
-  if(
-    !confirm(
-      "هل أنت متأكد من حذف هذه العملية؟"
-    )
-  ){
-
-    return;
-
-  }
-
-
-  try{
-
-    const collectionName =
-      type === "purchase"
-      ?
-      PURCHASES_COL
-      :
-      CONTRACTS_COL;
-
-
-    await db
-      .collection(
-        collectionName
-      )
-      .doc(id)
-      .delete();
-
-
-    showToast(
-      "تم حذف العملية بنجاح",
-      "success"
-    );
-
-
-  }catch(error){
-
-    console.error(error);
-
-
-    showToast(
-      "فشل الحذف: " +
-      error.message,
-      "error"
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   EXPORT HELPERS
-========================================================= */
-
-
-/*
-  تحويل النص إلى صيغة آمنة لـ CSV.
-*/
-
-function csvCell(value){
-
-  const text =
-    String(
-      value ??
-      ""
-    )
-    .replace(/\r?\n/g," ");
-
-
-  return '"' +
-    text.replace(
-      /"/g,
-      '""'
-    ) +
-    '"';
-
-}
-
-
-/*
-  تنزيل ملف CSV متوافق مع Excel.
-*/
-
-function downloadCSV(
-  filename,
-  rows
-){
-
-  if(!rows.length){
-
-    showToast(
-      "لا توجد بيانات لتصديرها",
-      "info"
-    );
-
-    return;
-
-  }
-
-
-  const csv =
-    "\uFEFF" +
-    rows
-      .map(
-        row =>
-          row.map(csvCell).join(",")
-      )
-      .join("\r\n");
-
-
-  const blob =
-    new Blob(
-      [csv],
-      {
-        type:
-          "text/csv;charset=utf-8;"
-      }
-    );
-
-
-  const url =
-    URL.createObjectURL(
-      blob
-    );
-
-
-  const link =
-    document.createElement(
-      "a"
-    );
-
-
-  link.href = url;
-
-  link.download =
-    filename;
-
-
-  document.body.appendChild(
-    link
-  );
-
-
-  link.click();
-
-
-  link.remove();
-
-
-  URL.revokeObjectURL(
-    url
-  );
-
-
-  showToast(
-    "تم تصدير التقرير بنجاح ✓",
-    "success"
-  );
-
-}
-
-
-/* =========================================================
-   PURCHASE EXPORT
-========================================================= */
-
-function exportPurchases(){
-
-  const rows = [
-
-    [
-      "القسم",
-      "نوع العملية",
-      "رقم المناقصة",
-      "موقف المناقصة",
-      "رقم العملية",
-      "موقف العملية",
-      "نوع المهمات",
-      "رقم طلب الشراء",
-      "تاريخ طلب الشراء",
-      "اسم منفذ العملية",
-      "القيمة التقديرية",
-      "ملاحظات"
-    ]
-
-  ];
-
-
-  state.purchases.forEach(row=>{
-
-    rows.push([
-
-      row.group || "",
-
-      row.category || "",
-
-      row.tenderNumber || "",
-
-      row.tenderStatus || "",
-
-      row.operationNumber || "",
-
-      row.operationStatus || "",
-
-      row.taskType || "",
-
-      row.purchaseRequestNumber || "",
-
-      row.purchaseRequestDate || "",
-
-      row.operator || "",
-
-      row.estimatedValue || "",
-
-      row.notes || ""
-
-    ]);
-
-  });
-
-
-  downloadCSV(
-    "SOPC_تقرير_المشتريات_الخارجية.csv",
-    rows
-  );
-
-}
-
-
-/* =========================================================
-   CONTRACT EXPORT
-========================================================= */
-
-function exportContracts(){
-
-  const rows = [
-
-    [
-      "القسم",
-      "نوع العملية",
-      "رقم العملية",
-      "نوع المهمات",
-      "موقف التوريد",
-      "رقم الموافقة الاستيرادية",
-      "تاريخ فتح الاعتماد",
-      "مدة التوريد",
-      "القيمة الفعلية",
-      "غرامات التأخير",
-      "رقم أمر التوريد",
-      "رقم الاعتماد المستندي",
-      "موقف التوريد",
-      "ملاحظات"
-    ]
-
-  ];
-
-
-  state.contracts.forEach(row=>{
-
-    rows.push([
-
-      row.group || "",
-
-      row.category || "",
-
-      row.operationNumber || "",
-
-      row.taskType || "",
-
-      row.supplyStatus || "",
-
-      row.importApprovalNumber || "",
-
-      row.lcOpeningDate || "",
-
-      row.supplyPeriod || "",
-
-      row.actualValue || "",
-
-      row.lateFines || "",
-
-      row.supplyOrderNumber || "",
-
-      row.documentaryCreditNumber || "",
-
-      row.supplyPosition || "",
-
-      row.notes || ""
-
-    ]);
-
-  });
-
-
-  downloadCSV(
-    "SOPC_تقرير_التعاقدات_الخارجية.csv",
-    rows
-  );
-
-}
-
-
-/* =========================================================
-   PRINT REPORT HELPERS
-========================================================= */
-
-function reportStatus(value){
-
-  return escapeHTML(
-    value || "—"
-  );
-
-}
-
-
-function buildReportTable(
-  data,
-  type,
-  group,
-  category
-){
-
-  const fields =
-    getFields(
-      type,
-      category
-    );
-
-
-  const rows =
-    data.filter(
-      row =>
-        row.group === group &&
-        row.category === category
-    );
-
-
-  let html = `
-
-    <h2>
-      ${escapeHTML(group)}
-      —
-      ${escapeHTML(category)}
-    </h2>
-
-    <table>
-
-      <thead>
-
-        <tr>
-
-  `;
-
-
-  fields.forEach(field=>{
-
-    html += `
-
-      <th>
-        ${escapeHTML(
-          field.label
-        )}
-      </th>
-
-    `;
-
-  });
-
-
-  html += `
-
-        </tr>
-
-      </thead>
-
-      <tbody>
-
-  `;
-
-
-  if(!rows.length){
-
-    html += `
-
-      <tr>
-
-        <td
-          colspan="${fields.length}"
-          style="text-align:center">
-
-          لا توجد عمليات مسجلة
-
-        </td>
-
-      </tr>
-
-    `;
-
-  }else{
-
-    rows.forEach(row=>{
-
-      html += "<tr>";
-
-
-      fields.forEach(field=>{
-
-        html += `
-
-          <td>
-
-            ${
-              reportStatus(
-                row[field.key]
-              )
-            }
-
-          </td>
-
-        `;
-
       });
 
+      section.querySelectorAll(".delete-button").forEach(btn => {
+        btn.addEventListener("click", () => deleteRecord(type, btn.dataset.id));
+      });
 
-      html += "</tr>";
-
+      container.appendChild(section);
     });
+  });
+}
 
+function createRow(row, type, fields){
+  let html = "<tr>";
+  fields.forEach(field => {
+    const value = row[field.key] || "";
+    const isStatus =
+      field.key.toLowerCase().includes("status") ||
+      field.key.toLowerCase().includes("position");
+
+    html += `<td data-label="${escapeHTML(field.label)}">${isStatus ? createStatus(value) : escapeHTML(value || "—")}</td>`;
+  });
+
+  if(isAdmin()){
+    html += `
+      <td class="actions">
+        <button class="btn btn-secondary edit-button" data-id="${row.id}">تعديل</button>
+        <button class="btn btn-danger delete-button" data-id="${row.id}">حذف</button>
+      </td>`;
   }
-
-
-  html += `
-
-      </tbody>
-
-    </table>
-
-  `;
-
-
+  html += "</tr>";
   return html;
-
 }
 
+function createStatus(value){
+  const text = String(value || "غير محدد");
+  const lower = text.toLowerCase();
+  let cls = "status-warning";
+  if(lower.includes("تم") || lower.includes("مكتمل") || lower.includes("توريد")) cls = "status-success";
+  if(lower.includes("متوقف") || lower.includes("متأخر") || lower.includes("ملغ")) cls = "status-danger";
+  return `<span class="status ${cls}">${escapeHTML(text)}</span>`;
+}
 
-/* =========================================================
-   PRINT PURCHASE REPORT
-========================================================= */
-
-function printPurchases(){
-
-  const report =
-    $("#printReport");
-
-
-  let html = `
-
-    <div
-      style="
-        direction:rtl;
-        font-family:Arial,Tahoma,sans-serif;
-      ">
-
-      <h1>
-        قطاع المشتريات الخارجية بــ SOPC
-      </h1>
-
-      <h2>
-        تقرير موقف إدارة المشتريات الخارجية
-      </h2>
-
-      <p>
-        تاريخ التقرير:
-        ${new Date().toLocaleString("ar-EG")}
-      </p>
-
-  `;
-
-
-  groups.forEach(group=>{
-
-    categories.forEach(category=>{
-
-      html +=
-        buildReportTable(
-          state.purchases,
-          "purchase",
-          group,
-          category
-        );
-
-    });
-
+/* ================= STATS ================= */
+function updateStatistics(purchases, contracts){
+  const totalPurchases = purchases.length;
+  const totalContracts = contracts.length;
+  const all = [...purchases, ...contracts];
+  const pending = all.filter(r => {
+    const status = r.tenderStatus || r.operationStatus || r.supplyStatus || r.supplyPosition || "";
+    return status === "" || !String(status).includes("تم");
   });
 
-
-  html += "</div>";
-
-
-  report.innerHTML =
-    html;
-
-
-  report.style.display =
-    "block";
-
-
-  window.print();
-
-
-  setTimeout(()=>{
-
-    report.style.display =
-      "none";
-
-    report.innerHTML = "";
-
-  },500);
-
+  $("#purchaseTotal").textContent = totalPurchases;
+  $("#contractTotal").textContent = totalContracts;
+  $("#recordTotal").textContent = all.length;
+  $("#pendingTotal").textContent = pending.length;
 }
 
+/* ================= MODAL ================= */
+function openRecordModal(type, group, category, fields, existing = null){
+  currentRecordType = type;
+  currentGroup = group;
+  currentCategory = category;
+  editingId = existing ? existing.id : null;
 
-/* =========================================================
-   PRINT CONTRACT REPORT
-========================================================= */
+  $("#recordModalTitle").textContent = existing ? "تعديل عملية" : "إضافة عملية";
+  $("#recordMessage").textContent = "";
 
-function printContracts(){
+  const container = $("#recordFields");
+  container.innerHTML = "";
 
-  const report =
-    $("#printReport");
+  fields.forEach(field => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "form-group";
+    if(field.type === "textarea") wrapper.classList.add("full");
 
+    const label = document.createElement("label");
+    label.textContent = field.label;
+    wrapper.appendChild(label);
 
-  let html = `
-
-    <div
-      style="
-        direction:rtl;
-        font-family:Arial,Tahoma,sans-serif;
-      ">
-
-      <h1>
-        قطاع المشتريات الخارجية بــ SOPC
-      </h1>
-
-      <h2>
-        تقرير موقف إدارة التعاقدات الخارجية
-      </h2>
-
-      <p>
-        تاريخ التقرير:
-        ${new Date().toLocaleString("ar-EG")}
-      </p>
-
-  `;
-
-
-  groups.forEach(group=>{
-
-    categories.forEach(category=>{
-
-      html +=
-        buildReportTable(
-          state.contracts,
-          "contract",
-          group,
-          category
-        );
-
-    });
-
+    let input;
+    if(field.type === "textarea"){
+      input = document.createElement("textarea");
+      input.rows = 4;
+    }else{
+      input = document.createElement("input");
+      input.type = field.type;
+    }
+    input.id = "field_" + field.key;
+    input.className = "form-control";
+    input.value = existing?.[field.key] || "";
+    wrapper.appendChild(input);
+    container.appendChild(wrapper);
   });
 
-
-  html += "</div>";
-
-
-  report.innerHTML =
-    html;
-
-
-  report.style.display =
-    "block";
-
-
-  window.print();
-
-
-  setTimeout(()=>{
-
-    report.style.display =
-      "none";
-
-    report.innerHTML = "";
-
-  },500);
-
+  $("#recordModal").classList.remove("hidden");
 }
 
+$("#cancelRecord").addEventListener("click", () => {
+  $("#recordModal").classList.add("hidden");
+});
 
-/* =========================================================
-   EXPORT BUTTONS
-========================================================= */
+/* ================= SAVE ================= */
+$("#recordForm").addEventListener("submit", async function(e){
+  e.preventDefault();
+  if(!isAdmin()) return;
 
-$("#exportPurchasesBtn")
-  .addEventListener(
-    "click",
-    exportPurchases
-  );
+  const saveBtn = $("#saveRecordBtn");
+  const msgEl = $("#recordMessage");
+  saveBtn.disabled = true;
+  saveBtn.textContent = "جارٍ الحفظ...";
+  msgEl.textContent = "";
 
+  try {
+    const fields = currentRecordType === "purchase" ? purchaseFields[currentCategory] : contractFields;
 
-$("#exportContractsBtn")
-  .addEventListener(
-    "click",
-    exportContracts
-  );
+    const record = {
+      group: currentGroup,
+      category: currentCategory,
+      updatedAt: new Date().toISOString()
+    };
 
+    fields.forEach(field => {
+      record[field.key] = ($("#field_" + field.key).value || "").trim();
+    });
 
-$("#printPurchasesBtn")
-  .addEventListener(
-    "click",
-    printPurchases
-  );
+    const colName = currentRecordType === "purchase" ? PURCHASES_COL : CONTRACTS_COL;
 
+    if(editingId){
+      await db.collection(colName).doc(editingId).set(record, { merge: true });
+      showToast("تم تحديث العملية بنجاح ✓", "success");
+    }else{
+      record.createdAt = new Date().toISOString();
+      record.id = generateId();
+      await db.collection(colName).doc(record.id).set(record);
+      showToast("تم حفظ العملية بنجاح ✓", "success");
+    }
 
-$("#printContractsBtn")
-  .addEventListener(
-    "click",
-    printContracts
-  );
+    $("#recordModal").classList.add("hidden");
+    editingId = null;
 
+  }catch(error){
+    console.error("Save error:", error);
+    msgEl.textContent = "خطأ في الحفظ: " + error.message;
+    showToast("فشل الحفظ: " + error.message, "error");
+  }finally{
+    saveBtn.disabled = false;
+    saveBtn.textContent = "حفظ";
+  }
+});
+
+/* ================= DELETE ================= */
+async function deleteRecord(type, id){
+  if(!isAdmin()) return;
+  if(!confirm("هل أنت متأكد من حذف هذه العملية؟")) return;
+
+  try{
+    const colName = type === "purchase" ? PURCHASES_COL : CONTRACTS_COL;
+    await db.collection(colName).doc(id).delete();
+    showToast("تم حذف العملية بنجاح", "success");
+  }catch(error){
+    console.error("Delete error:", error);
+    showToast("فشل الحذف: " + error.message, "error");
+  }
+}
+
+/* ================= EXPORT / PRINT ================= */
+function csvEscape(value){
+  const s=String(value ?? "");
+  return '"'+s.replace(/"/g,'""')+'"';
+}
+function downloadCSV(filename, headers, rows){
+  const csv="\uFEFF"+[headers,...rows].map(row=>row.map(csvEscape).join(",")).join("\r\n");
+  const blob=new Blob([csv],{type:"text/csv;charset=utf-8;"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+}
+function exportPurchases(){
+  const headers=["القسم","نوع العملية","رقم المناقصة","موقف المناقصة","رقم العملية","موقف العملية","نوع المهمات","رقم طلب الشراء","تاريخ طلب الشراء","اسم منفذ العملية","القيمة التقديرية","ملاحظات"];
+  const rows=state.purchases.map(r=>[r.group,r.category,r.tenderNumber,r.tenderStatus,r.operationNumber,r.operationStatus,r.taskType,r.purchaseRequestNumber,r.purchaseRequestDate,r.operator,r.estimatedValue,r.notes]);
+  downloadCSV("SOPC_المشتريات.csv",headers,rows);
+  showToast("تم تجهيز ملف Excel المتوافق بنجاح ✓","success");
+}
+function exportContracts(){
+  const headers=["القسم","نوع العملية","رقم العملية","نوع المهمات","موقف التوريد","رقم الموافقة الاستيرادية","تاريخ فتح الاعتماد","مدة التوريد","القيمة الفعلية","غرامات التأخير","رقم أمر التوريد","رقم الاعتماد المستندي","موقف التوريد","ملاحظات"];
+  const rows=state.contracts.map(r=>[r.group,r.category,r.operationNumber,r.taskType,r.supplyStatus,r.importApprovalNumber,r.lcOpeningDate,r.supplyPeriod,r.actualValue,r.lateFines,r.supplyOrderNumber,r.documentaryCreditNumber,r.supplyPosition,r.notes]);
+  downloadCSV("SOPC_التعاقدات.csv",headers,rows);
+  showToast("تم تجهيز ملف Excel المتوافق بنجاح ✓","success");
+}
+function printReport(title, records, fields){
+  const win=window.open("","_blank");
+  if(!win){showToast("يرجى السماح بفتح نافذة الطباعة من المتصفح","error");return;}
+  const sections=groups.map(group=>categories.map(category=>{
+    const rows=records.filter(r=>r.group===group&&r.category===category);
+    const usedFields=Array.isArray(fields)?fields:fields[category];
+    const head=usedFields.map(f=>`<th>${escapeHTML(f.label)}</th>`).join("");
+    const body=rows.length?rows.map(r=>`<tr>${usedFields.map(f=>`<td>${escapeHTML(r[f.key]||"—")}</td>`).join("")}</tr>`).join(""):`<tr><td colspan="${usedFields.length}">لا توجد عمليات مسجلة</td></tr>`;
+    return `<section><h2>${escapeHTML(group)} — ${escapeHTML(category)}</h2><table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></section>`;
+  }).join("")).join("");
+  win.document.write(`<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>${escapeHTML(title)}</title><style>body{font-family:Arial,Tahoma,sans-serif;padding:20px;color:#111}h1{text-align:center;margin-bottom:25px}h2{margin:25px 0 10px}table{width:100%;border-collapse:collapse;font-size:11px}th,td{border:1px solid #999;padding:6px;text-align:right;vertical-align:top}th{background:#eee}@media print{body{padding:0}section{break-inside:avoid}}</style></head><body><h1>${escapeHTML(title)}</h1>${sections}<script>window.onload=()=>setTimeout(()=>window.print(),200)<\/script></body></html>`);
+  win.document.close();
+}
+$("#exportPurchasesBtn").addEventListener("click",exportPurchases);
+$("#exportContractsBtn").addEventListener("click",exportContracts);
+$("#printPurchasesBtn").addEventListener("click",()=>printReport("تقرير المشتريات الخارجية",state.purchases,purchaseFields));
+$("#printContractsBtn").addEventListener("click",()=>printReport("تقرير التعاقدات الخارجية",state.contracts,contractFields));
 
 /* =========================================================
    INITIALIZE
-========================================================= */
+   =========================================================
+   1. نهيئ المصادقة المجهولة أولاً
+   2. بعد نجاح المصادقة → نُظهر شاشة الدخول
+   3. إذا كان هناك جلسة محفوظة → نفتح التطبيق مباشرة
+   ========================================================= */
 
-async function initializeApp(){
-
-  try{
-
+async function initializeApp() {
+  try {
+    // 1) تشغيل المصادقة المجهولة
     await initAuth();
 
+    // 2) بعد المصادقة، إظهار شاشة الدخول أو التطبيق
+    const hasSession = checkSession();
 
-    const hasSession =
-      checkSession();
-
-
-    if(hasSession){
-
+    if (hasSession) {
+      // جلسة موجودة → افتح التطبيق مباشرة
       openApplication();
-
-    }else{
-
-      $("#loginPage")
-        .classList.remove(
-          "hidden"
-        );
-
+    } else {
+      // لا توجد جلسة → أظهر شاشة تسجيل الدخول
+      $("#loginPage").classList.remove("hidden");
     }
 
-
-  }catch(error){
-
-    console.error(error);
-
-
-    $("#loginPage")
-      .classList.remove(
-        "hidden"
-      );
-
-
-    $("#loginMessage")
-      .textContent =
+  } catch (error) {
+    console.error("Init error:", error);
+    // حتى لو فشلت المصادقة، نُظهر شاشة الدخول مع رسالة خطأ
+    $("#loginPage").classList.remove("hidden");
+    $("#loginMessage").textContent =
       "تعذّر الاتصال بـ Firebase. تحقق من اتصالك بالإنترنت.";
-
-
     hideAuthOverlay();
-
   }
-
 }
 
-
-/* =========================================================
-   START
-========================================================= */
-
+// بدء التطبيق
 initializeApp();
-
 </script>
 
 </body>
-
 </html>
-```
